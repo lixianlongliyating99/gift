@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<title>给你的礼物</title>
+<meta name="theme-color" content="#1A0E1E">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='15' fill='%231A0E1E'/><path d='M32 46s-14-8.6-14-18a8 8 0 0 1 14-5 8 8 0 0 1 14 5c0 9.4-14 18-14 18z' fill='%23E8B4B8'/></svg>">
+<style>
+:root{
+  --bg1:#1A0E1E; --bg2:#2A1428; --gold:#E8C07D; --rose:#E8B4B8;
+  --cream:#F3E9DC; --dim:#A08C96;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;height:100%}
+body{
+  background:radial-gradient(120% 80% at 50% 0%,var(--bg2),var(--bg1) 70%);
+  color:var(--cream);
+  font-family:-apple-system,BlinkMacSystemFont,"Noto Serif CJK SC","Songti SC","PingFang SC",serif;
+  overflow:hidden;touch-action:manipulation;
+}
+#app{height:100vh;height:100dvh;display:flex;flex-direction:column;position:relative}
+.screen{
+  position:absolute;inset:0;display:none;flex-direction:column;
+  align-items:center;justify-content:center;padding:32px 26px;
+  padding-top:calc(32px + env(safe-area-inset-top));
+  padding-bottom:calc(32px + env(safe-area-inset-bottom));
+  text-align:center;
+}
+.screen.on{display:flex;animation:fade .7s ease both}
+@keyframes fade{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+
+/* ---------- 封面 ---------- */
+.ornament{color:var(--gold);font-size:15px;letter-spacing:.5em;opacity:.8;margin-bottom:26px}
+.to-line{color:var(--dim);font-size:15px;letter-spacing:.28em;margin-bottom:14px}
+.name{font-size:40px;letter-spacing:.1em;line-height:1.35;margin:0 0 20px;
+  background:linear-gradient(180deg,#FFF3DF,var(--gold));
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  text-shadow:0 0 32px rgba(232,192,125,.22)}
+.date{color:var(--rose);font-size:15px;letter-spacing:.22em;margin-bottom:52px}
+.tap{
+  border:1px solid rgba(232,192,125,.45);background:rgba(232,192,125,.07);
+  color:var(--gold);border-radius:999px;padding:14px 34px;font-size:15px;
+  letter-spacing:.22em;cursor:pointer;font-family:inherit;
+  animation:breathe 2.6s ease-in-out infinite;
+}
+.tap:active{background:rgba(232,192,125,.2)}
+@keyframes breathe{0%,100%{opacity:.72}50%{opacity:1}}
+
+/* ---------- 回忆卡片 ---------- */
+#s-cards{justify-content:center}
+.card-count{color:var(--dim);font-size:12px;letter-spacing:.3em;margin-bottom:20px}
+.card-title{color:var(--gold);font-size:21px;letter-spacing:.08em;margin:0 0 18px}
+.card-body{
+  font-size:17px;line-height:2;color:var(--cream);max-width:30em;
+  white-space:pre-wrap;text-align:left;
+}
+.next{
+  margin-top:44px;border:1px solid rgba(232,180,184,.4);background:transparent;
+  color:var(--rose);border-radius:999px;padding:12px 30px;font-size:14px;
+  letter-spacing:.2em;cursor:pointer;font-family:inherit;
+}
+.next:active{background:rgba(232,180,184,.14)}
+.card{animation:rise .6s ease both}
+@keyframes rise{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+
+/* ---------- 祝福 ---------- */
+#s-wish .wish{
+  font-size:18px;line-height:2.15;white-space:pre-wrap;max-width:30em;
+  margin:6px 0 34px;text-align:left;
+}
+.sign{color:var(--gold);font-size:16px;letter-spacing:.16em}
+.sign-sub{color:var(--dim);font-size:12px;letter-spacing:.3em;margin-top:10px}
+.more{
+  margin-top:46px;border:1px solid rgba(232,192,125,.3);background:transparent;
+  color:var(--dim);border-radius:999px;padding:11px 24px;font-size:13px;
+  letter-spacing:.16em;cursor:pointer;font-family:inherit;
+}
+.hearts{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.heart{position:absolute;bottom:-40px;font-size:16px;opacity:0;animation:float linear infinite}
+@keyframes float{
+  0%{opacity:0;transform:translateY(0) scale(.8)}
+  15%{opacity:.9}
+  100%{opacity:0;transform:translateY(-104vh) scale(1.15)}
+}
+#mute{
+  position:absolute;right:16px;top:calc(14px + env(safe-area-inset-top));
+  z-index:5;background:none;border:0;color:var(--dim);font-size:19px;
+  cursor:pointer;padding:6px;
+}
+</style>
+</head>
+<body>
+<div id="app">
+  <button id="mute" title="音乐开关">♪</button>
+  <div class="hearts" id="hearts"></div>
+
+  <!-- 封面 -->
+  <div class="screen on" id="s-cover">
+    <div class="ornament">✦ ✦ ✦</div>
+    <div class="to-line" id="cover-to">给</div>
+    <h1 class="name" id="cover-name"></h1>
+    <div class="date" id="cover-date"></div>
+    <button class="tap" id="btn-start">点 一 下 开 始</button>
+  </div>
+
+  <!-- 回忆卡片 -->
+  <div class="screen" id="s-cards">
+    <div class="card-count" id="card-count"></div>
+    <div class="card" id="card">
+      <h2 class="card-title" id="card-title"></h2>
+      <div class="card-body" id="card-body"></div>
+    </div>
+    <button class="next" id="btn-next"></button>
+  </div>
+
+  <!-- 祝福 -->
+  <div class="screen" id="s-wish">
+    <div class="ornament">✦</div>
+    <div class="wish" id="wish-text"></div>
+    <div class="sign" id="wish-sign"></div>
+    <div class="sign-sub" id="wish-date"></div>
+    <button class="more" id="btn-more">我 也 想 做 一 个</button>
+  </div>
+</div>
+
+<script>
+/* ==========================================================================
+   礼物页 · 你只需要改下面这一段（其他都不要动）
+   ========================================================================== */
+//<<<CONFIG
+var GIFT = {
+  to:      "小林",                 // 收礼物的人
+  date:    "10月3日 · 生日快乐",     // 副标题（生日/纪念日/毕业…）
+  from:    "阿哲",                 // 你的名字
+  cards: [                         // 回忆卡片，2~6 张最好；每张一句话到三句话
+    { t: "第一次同桌",
+      d: "高一开学那天，你坐在我右边。\n你把橡皮切成两半分我，" +
+         "说：以后就是同桌了。" },
+    { t: "那次晚自习",
+      d: "停电的二十分钟，全班都在讲话，\n只有你在黑暗中背完了整篇《琵琶行》。" },
+    { t: "你借我的那本书",
+      d: "我到现在还没看完。\n但我一直没还，因为还了就没有下次了。" }
+  ],
+  wish: "十七岁生日快乐。\n\n这一年你辛苦了，我都看见了。\n" +
+        "希望你许的愿望都能实现，\n也希望明年这个时候，我们还坐在同一间教室里。",
+  music: true                      // true = 打开时有音乐，false = 静音
+};
+//>>>CONFIG
+
+/* ============================================================
+   链接模式：如果网址里带了 #d=xxxx 的数据，就用网址里的内容渲染。
+   这样收礼人点开链接就能直接看，不需要下载任何文件。
+   ============================================================ */
+(function () {
+  var m = /[#?&]d=([A-Za-z0-9\-_]+)/.exec(location.hash || location.search || '');
+  if (!m) return;
+  try {
+    var s = m[1].replace(/-/g, '+').replace(/_/g, '/');
+    while (s.length % 4) s += '=';
+    var bin = atob(s), bytes = new Uint8Array(bin.length);
+    for (var i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+    var obj = JSON.parse(new TextDecoder('utf-8').decode(bytes));
+    if (obj && obj.to && obj.cards && obj.cards.length) GIFT = obj;
+  } catch (e) { /* 数据坏了就退回默认内容，不白屏 */ }
+})();
+
+/* ========================================================================== */
+
+(function () {
+  'use strict';
+  var $ = function (id) { return document.getElementById(id); };
+  var idx = 0, heartsTimer = null, audio = null, muted = !GIFT.music;
+
+  function show(id) {
+    var all = document.querySelectorAll('.screen');
+    for (var i = 0; i < all.length; i++) all[i].classList.remove('on');
+    $(id).classList.add('on');
+  }
+
+  function renderCover() {
+    $('cover-to').textContent = '给';
+    $('cover-name').textContent = GIFT.to;
+    $('cover-date').textContent = GIFT.date;
+    document.title = '给 ' + GIFT.to + ' 的礼物';
+  }
+
+  function renderCard() {
+    var c = GIFT.cards[idx];
+    $('card-title').textContent = c.t;
+    $('card-body').textContent = c.d;
+    $('card-count').textContent = (idx + 1) + ' / ' + GIFT.cards.length;
+    var next = $('btn-next');
+    next.textContent = idx === GIFT.cards.length - 1 ? '最 后' : '继 续';
+    var card = $('card');
+    card.style.animation = 'none';
+    void card.offsetWidth;
+    card.style.animation = '';
+  }
+
+  function renderWish() {
+    $('wish-text').textContent = GIFT.wish;
+    $('wish-sign').textContent = '—— ' + GIFT.from;
+    $('wish-date').textContent = GIFT.date;
+  }
+
+  function startHearts() {
+    if (heartsTimer) return;
+    var box = $('hearts');
+    var chars = ['♥', '✦', '❤', '✧'];
+    heartsTimer = setInterval(function () {
+      if (box.childElementCount > 26) return;
+      var s = document.createElement('span');
+      s.className = 'heart';
+      s.textContent = chars[Math.floor(Math.random() * chars.length)];
+      s.style.left = (Math.random() * 96) + '%';
+      s.style.color = Math.random() > 0.5 ? '#E8B4B8' : '#E8C07D';
+      s.style.fontSize = (12 + Math.random() * 14) + 'px';
+      s.style.animationDuration = (7 + Math.random() * 6) + 's';
+      box.appendChild(s);
+      setTimeout(function () { if (s.parentNode) s.parentNode.removeChild(s); }, 14000);
+    }, 520);
+  }
+
+  /* ---- 音乐盒：用 Web Audio 现场合成，不需要任何音频文件 ---- */
+  var NOTES = {C4:261.63, D4:293.66, E4:329.63, F4:349.23, G4:392.00,
+               A4:440.00, B4:493.88, C5:523.25, D5:587.33, E5:659.25, F5:698.46, G5:783.99};
+  var MELODY = [['G4',.5],['G4',.5],['A4',1],['G4',1],['C5',1],['B4',2],
+                ['G4',.5],['G4',.5],['A4',1],['G4',1],['D5',1],['C5',2],
+                ['G4',.5],['G4',.5],['G5',1],['E5',1],['C5',1],['B4',1],['A4',2],
+                ['F5',.5],['F5',.5],['E5',1],['C5',1],['D5',1],['C5',2]];
+
+  function playMusic() {
+    if (muted) return;
+    try {
+      var Ctx = window.AudioContext || window.webkitAudioContext;
+      if (!Ctx) return;
+      audio = audio || new Ctx();
+      if (audio.state === 'suspended') audio.resume();
+      var t = audio.currentTime + 0.15;
+      var beat = 0.46;
+      for (var i = 0; i < MELODY.length; i++) {
+        var freq = NOTES[MELODY[i][0]];
+        var dur = MELODY[i][1] * beat;
+        var osc = audio.createOscillator();
+        var gain = audio.createGain();
+        osc.type = 'triangle';
+        osc.frequency.value = freq;
+        gain.gain.setValueAtTime(0.0001, t);
+        gain.gain.exponentialRampToValueAtTime(0.16, t + 0.02);
+        gain.gain.exponentialRampToValueAtTime(0.0001, t + dur * 0.92);
+        osc.connect(gain); gain.connect(audio.destination);
+        osc.start(t); osc.stop(t + dur);
+        t += dur;
+      }
+      // 循环播放
+      var total = t - audio.currentTime;
+      setTimeout(function () { if (!muted) playMusic(); }, (total + 2.2) * 1000);
+    } catch (e) { /* 不支持就安静 */ }
+  }
+
+  function updateMute() {
+    $('mute').textContent = muted ? '♪̸' : '♪';
+    $('mute').style.color = muted ? '#6B5A63' : '#E8C07D';
+  }
+
+  $('btn-start').addEventListener('click', function () {
+    if (!muted) playMusic();
+    idx = 0;
+    renderCard();
+    show('s-cards');
+  });
+
+  $('btn-next').addEventListener('click', function () {
+    if (idx < GIFT.cards.length - 1) {
+      idx++;
+      renderCard();
+    } else {
+      renderWish();
+      startHearts();
+      show('s-wish');
+    }
+  });
+
+  $('mute').addEventListener('click', function () {
+    muted = !muted;
+    updateMute();
+    if (!muted) playMusic();
+  });
+
+  $('btn-more').addEventListener('click', function () {
+    var text = '这个礼物页是用手机做的，可以换成你们的故事。想做一个的话找我：' + GIFT.from;
+    if (navigator.share) {
+      navigator.share({title: '定制礼物页', text: text}).catch(function () {});
+    } else if (navigator.clipboard) {
+      navigator.clipboard.writeText(text).then(function () {
+        $('btn-more').textContent = '已 复 制，去 粘 贴 给 我';
+      }).catch(function () {
+        $('btn-more').textContent = text;
+      });
+    } else {
+      $('btn-more').textContent = text;
+    }
+  });
+
+  renderCover();
+  renderWish();
+  updateMute();
+})();
+</script>
+</body>
+</html>

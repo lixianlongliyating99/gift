@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>礼物页生成器</title>
+<meta name="theme-color" content="#1A0E1E">
+<style>
+:root{--bg:#140B18;--panel:#1F1224;--line:#3A2438;--gold:#E8C07D;--rose:#E8B4B8;
+  --cream:#F3E9DC;--dim:#9C8892;--ok:#7FC8A9}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;background:var(--bg);color:var(--cream);
+  font-family:-apple-system,BlinkMacSystemFont,"Noto Sans CJK SC","PingFang SC",sans-serif}
+.wrap{max-width:720px;margin:0 auto;padding:18px 16px calc(40px + env(safe-area-inset-bottom))}
+h1{font-size:20px;margin:0 0 4px;letter-spacing:.06em}
+.sub{color:var(--dim);font-size:13px;margin-bottom:20px;line-height:1.7}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;
+  padding:16px;margin-bottom:14px}
+label{display:block;font-size:13px;color:var(--gold);margin:0 0 6px;letter-spacing:.04em}
+label .opt{color:var(--dim);font-weight:400}
+input,textarea{width:100%;background:#120A16;border:1px solid var(--line);border-radius:8px;
+  color:var(--cream);padding:11px 12px;font-size:15px;font-family:inherit;line-height:1.6}
+input:focus,textarea:focus{outline:none;border-color:var(--gold)}
+textarea{resize:vertical;min-height:74px}
+.row{margin-bottom:14px}
+.row:last-child{margin-bottom:0}
+.hint{color:var(--dim);font-size:12px;margin-top:6px;line-height:1.6}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.cardhead{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.cardhead h3{margin:0;font-size:14px;color:var(--rose);font-weight:500}
+.del{background:none;border:1px solid var(--line);color:var(--dim);border-radius:6px;
+  padding:5px 10px;font-size:12px;cursor:pointer;font-family:inherit}
+.del:active{border-color:var(--rose);color:var(--rose)}
+.btn{display:block;width:100%;padding:14px;border-radius:10px;border:0;font-size:16px;
+  font-family:inherit;cursor:pointer;margin-top:10px;letter-spacing:.06em}
+.btn.primary{background:linear-gradient(180deg,#E8C07D,#C99C55);color:#2A1428;font-weight:600}
+.btn.ghost{background:transparent;border:1px solid var(--line);color:var(--cream)}
+.btn:active{opacity:.85}
+.switch{display:flex;align-items:center;gap:10px;font-size:14px;color:var(--cream)}
+.switch input{width:auto}
+#preview{width:100%;height:520px;border:1px solid var(--line);border-radius:12px;
+  background:#000;margin-top:14px;display:none}
+#toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom));
+  transform:translateX(-50%) translateY(16px);background:#2A1428;border:1px solid var(--gold);
+  color:var(--cream);padding:12px 20px;border-radius:10px;font-size:14px;opacity:0;
+  pointer-events:none;transition:.22s;z-index:99;max-width:88vw;text-align:center}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.steps{counter-reset:s;font-size:13px;color:var(--dim);line-height:1.9;padding-left:0;
+  list-style:none;margin:8px 0 0}
+.steps li{counter-increment:s}
+.steps li:before{content:counter(s)".";color:var(--gold);margin-right:7px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>礼物页生成器</h1>
+  <div class="sub">填完下面的表，点一下，就得到你自己的礼物页。<br>不用注册，不用联网，不用会代码。</div>
+
+  <div class="card">
+    <div class="row"><label>送给谁</label>
+      <input id="f-to" placeholder="小雨" maxlength="12"></div>
+    <div class="row"><label>什么日子</label>
+      <input id="f-date" placeholder="5月20日 · 在一起一周年" maxlength="24"></div>
+    <div class="row"><label>你的署名</label>
+      <input id="f-from" placeholder="你的笨蛋" maxlength="16"></div>
+  </div>
+
+  <div id="cards"></div>
+
+  <button class="btn ghost" id="add">＋ 再加一张卡片</button>
+
+  <div class="card" style="margin-top:14px">
+    <div class="row"><label>最后的祝福</label>
+      <textarea id="f-wish" placeholder="一周年快乐。&#10;&#10;我不太会说好听的，就把我们的事写成了这个。"></textarea>
+      <div class="hint">想换行就直接回车，不用管别的。</div></div>
+    <div class="row"><div class="switch">
+      <input type="checkbox" id="f-music" checked><label for="f-music" style="margin:0">打开时有背景音乐</label>
+    </div></div>
+  </div>
+
+  <button class="btn primary" id="link">生成专属链接（推荐）</button>
+  <button class="btn ghost" id="gen">下载文件版</button>
+  <button class="btn ghost" id="prev">先预览一下</button>
+  <iframe id="preview"></iframe>
+
+  <div class="card" id="urltip" style="display:none;margin-top:14px">
+    <label>你的专属链接（长按全选 → 复制）</label>
+    <textarea rows="4" readonly onclick="this.select()"></textarea>
+    <div class="hint">这条链接发给谁，谁就能看到你的礼物页。永久有效。</div>
+  </div>
+
+  <div class="card" style="margin-top:16px">
+    <h3 style="margin:0 0 4px;font-size:14px;color:var(--rose)">怎么把它送出去</h3>
+    <ol class="steps">
+      <li>点「生成专属链接」，链接会自动复制</li>
+      <li>把链接粘贴给对方（微信 / QQ 都行）</li>
+      <li>对方点开就能看，不用下载任何东西</li>
+    </ol>
+  </div>
+</div>
+<div id="toast"></div>
+
+<script>
+var TPL_B64 = "";
+</script>
+<script>
+(function(){
+  'use strict';
+  var $ = function(id){ return document.getElementById(id); };
+  var cardSeq = 0;
+
+  function toast(msg){
+    var t = $('toast'); t.textContent = msg; t.classList.add('show');
+    clearTimeout(t._t); t._t = setTimeout(function(){ t.classList.remove('show'); }, 2800);
+  }
+
+  function addCard(title, body){
+    var i = ++cardSeq;
+    var box = document.createElement('div');
+    box.className = 'card';
+    box.innerHTML =
+      '<div class="cardhead"><h3>第 ' + i + ' 张卡片</h3>' +
+      '<button class="del">删除</button></div>' +
+      '<div class="row"><label>标题</label>' +
+      '<input class="c-t" placeholder="第一次见你" maxlength="16"></div>' +
+      '<div class="row"><label>内容</label>' +
+      '<textarea class="c-d" placeholder="去年冬天在图书馆，你占了我常坐的位置。&#10;我站在旁边看了你十分钟。"></textarea>' +
+      '<div class="hint">越具体越好。别人听不懂的细节，才是最好的细节。</div></div>';
+    box.querySelector('.del').addEventListener('click', function(){
+      if (document.querySelectorAll('#cards .card').length <= 1) { toast('至少留一张卡片'); return; }
+      box.remove(); renumber();
+    });
+    $('cards').appendChild(box);
+    if (title) box.querySelector('.c-t').value = title;
+    if (body) box.querySelector('.c-d').value = body;
+    renumber();
+    return box;
+  }
+
+  function renumber(){
+    var all = document.querySelectorAll('#cards .card');
+    for (var i = 0; i < all.length; i++){
+      all[i].querySelector('h3').textContent = '第 ' + (i + 1) + ' 张卡片';
+    }
+    cardSeq = all.length;
+  }
+
+  function collect(){
+    var cards = [];
+    var all = document.querySelectorAll('#cards .card');
+    for (var i = 0; i < all.length; i++){
+      var t = all[i].querySelector('.c-t').value.trim();
+      var d = all[i].querySelector('.c-d').value.trim();
+      if (t || d) cards.push({ t: t || ('第 ' + (i + 1) + ' 件事'), d: d });
+    }
+    if (!cards.length) cards.push({ t: '第一次见你', d: '这里写你们的故事。' });
+    return {
+      to: $('f-to').value.trim() || '你',
+      date: $('f-date').value.trim() || '生日快乐',
+      from: $('f-from').value.trim() || '',
+      cards: cards,
+      wish: $('f-wish').value.trim() || '希望你今年一切都好。',
+      music: $('f-music').checked
+    };
+  }
+
+  function template(){
+    var bin = atob(TPL_B64);
+    var bytes = new Uint8Array(bin.length);
+    for (var i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+    return new TextDecoder('utf-8').decode(bytes);
+  }
+
+  function b64e(str){
+    var bytes = new TextEncoder().encode(str), bin = '';
+    for (var i = 0; i < bytes.length; i++) bin += String.fromCharCode(bytes[i]);
+    return btoa(bin).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+  }
+
+  function playerUrl(){
+    return location.href.replace(/[^/]*$/, '') + 'gift.html#d=' + b64e(JSON.stringify(collect()));
+  }
+
+  function build(){
+    var cfg = JSON.stringify(collect(), null, 2).replace(/<\//g, '<\\/');
+    return template().replace(/var GIFT = \{[\s\S]*?\n\};/, 'var GIFT = ' + cfg + ';');
+  }
+
+  $('add').addEventListener('click', function(){
+    if (document.querySelectorAll('#cards .card').length >= 8) { toast('最多 8 张'); return; }
+    addCard();
+  });
+  $('prev').addEventListener('click', function(){
+    var f = $('preview');
+    f.style.display = 'block';
+    f.srcdoc = build();
+    f.scrollIntoView({behavior:'smooth', block:'start'});
+  });
+  $('link').addEventListener('click', function(){
+    try {
+      var url = playerUrl();
+      if (url.length > 3000) { toast('内容太长了，减掉几张卡片试试'); return; }
+      var done = function(){ toast('链接已复制，发给对方就能看'); };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(url).then(done, function(){ showUrl(url); });
+      } else { showUrl(url); }
+    } catch(e) { toast('生成失败：' + e.message); }
+  });
+
+  function showUrl(url){
+    var box = $('urltip');
+    box.style.display = 'block';
+    box.querySelector('textarea').value = url;
+    box.scrollIntoView({behavior:'smooth', block:'center'});
+  }
+
+  $('gen').addEventListener('click', function(){
+    try {
+      var html = build();
+      var blob = new Blob([html], {type: 'text/html;charset=utf-8'});
+      var name = '给' + collect().to + '的礼物.html';
+      if (!/\.html?$/i.test(name)) name += '.html';   // 后缀兜底：没有它买家打不开
+      var a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = name;
+      document.body.appendChild(a);
+      a.click();
+      setTimeout(function(){ URL.revokeObjectURL(a.href); a.remove(); }, 1500);
+      toast('已生成：' + name);
+    } catch(e) {
+      toast('生成失败：' + e.message);
+    }
+  });
+
+  addCard('第一次见你', '去年冬天在图书馆，你占了我常坐的位置。\n我站在旁边看了你十分钟，最后憋出一句：同学，这个位子有人吗。');
+  addCard('你哭的那天', '你考砸了，在操场看台上坐着不说话。\n我买了两瓶可乐，你说你不喝碳酸。然后你把两瓶都喝了。');
+  addCard('我没告诉过你的事', '你每次说"没事"的时候，我都会偷偷看你一眼。\n三百多天，我看了三百多眼。');
+  $('f-wish').value = '一周年快乐。\n\n我不太会说好听的，就把我们的事写成了这个。\n以后每年这一天，我都给你做一个新的。';
+})();
+</script>
+</body>
+</html>
