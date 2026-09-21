@@ -36,6 +36,14 @@ body.f-yozai{font-family:'Yozai','Noto Sans CJK SC',sans-serif}
 body.f-marker{font-family:'LXGW Marker Gothic','Noto Sans CJK SC',sans-serif}
 @font-face{font-family:'LXGW Neo XiHei';font-style:normal;font-weight:400;font-display:swap;src:url(neoxihei.woff2) format('woff2')}
 body.f-neoxi{font-family:'LXGW Neo XiHei','Noto Sans CJK SC',sans-serif}
+@font-face{font-family:'Smiley Sans';font-style:normal;font-weight:400;font-display:swap;src:url(SmileySans.woff2) format('woff2')}
+body.f-smiley{font-family:'Smiley Sans','Noto Sans CJK SC',sans-serif}
+@font-face{font-family:'LXGW WenKai Light';font-style:normal;font-weight:400;font-display:swap;src:url(LXGWLight.woff2) format('woff2')}
+body.f-handlite{font-family:'LXGW WenKai Light','Noto Sans CJK SC',sans-serif}
+@font-face{font-family:'LXGW WenKai Medium';font-style:normal;font-weight:400;font-display:swap;src:url(LXGWMedium.woff2) format('woff2')}
+body.f-handmed{font-family:'LXGW WenKai Medium','Noto Sans CJK SC',sans-serif}
+@font-face{font-family:'Xiaolai Mono';font-style:normal;font-weight:400;font-display:swap;src:url(XiaolaiMono.woff2) format('woff2')}
+body.f-wmono{font-family:'Xiaolai Mono','Noto Sans CJK SC',sans-serif}
 body.f-mine{font-family:'MyHand','Noto Sans CJK SC',sans-serif}
 /* ==== 字体结束 ==== */
 
@@ -170,6 +178,13 @@ body.bg-stars::before{content:'';position:fixed;inset:0;pointer-events:none;z-in
 .envelope.open .env-letter{transform:translateY(-58%) scale(.96)}
 .envelope.open .env-seal{opacity:0;transform:translate(-50%,-50%) scale(.5) rotate(28deg)}
 .envelope.open .env-body{box-shadow:0 10px 30px rgba(0,0,0,.22)}
+/* 卡片抽出后放大占满屏幕（学 AE 模板的节奏） */
+.envelope.zoom .env-letter{
+  transform:translateY(-52%) scale(5.6);opacity:0;
+  transition:transform .78s cubic-bezier(.32,.86,.36,1),opacity .78s ease .42s}
+.envelope.zoom .env-body,.envelope.zoom .env-flap{
+  opacity:0;transition:opacity .5s ease .1s}
+#s-cover.fadeout{opacity:0;transition:opacity .5s ease .25s}
 .tap-hint{color:var(--dim);font-size:14px;letter-spacing:.28em;
   animation:breathe 2.6s ease-in-out infinite;transition:opacity .4s}
 .reveal .tap-hint{opacity:0}
@@ -636,11 +651,13 @@ var INST = {
     if (!muted) playMusic();
     this.classList.add('open');
     $('s-cover').classList.add('reveal');
+    setTimeout(function () { $('envelope').classList.add('zoom'); }, 1350);
+    setTimeout(function () { $('s-cover').classList.add('fadeout'); }, 1750);
     setTimeout(function () {
       idx = 0;
       renderCard();
       show('s-cards');
-    }, 1500);
+    }, 2150);
   });
 
   $('btn-next').addEventListener('click', function () {
