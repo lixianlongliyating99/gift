@@ -687,8 +687,14 @@ var INST = {
     if (!muted) playMusic();
   });
 
+  if (!(GIFT.contact || '').trim()) {
+    $('btn-more').style.display = 'none';
+  }
   $('btn-more').addEventListener('click', function () {
-    var text = '这个礼物页是用手机做的，可以换成你们的故事。想做一个的话找我：' + GIFT.from;
+    var who = (GIFT.contact || '').trim();
+    var text = who
+      ? '这个礼物页是定制的，把你们的故事写进去就行。想要一个的话找我：' + who
+      : '这个礼物页是定制的，把你们的故事写进去就行。';
     if (navigator.share) {
       navigator.share({title: '定制礼物页', text: text}).catch(function () {});
     } else if (navigator.clipboard) {
