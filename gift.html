@@ -434,6 +434,11 @@ var INST = {
     var lys = ['ly-photo-top','ly-photo-bottom','ly-photo-left'];
     for (i = 0; i < lys.length; i++) b.classList.remove(lys[i]);
     b.classList.add('ly-' + (GIFT.layout || 'photo-top'));
+    // 字体类（16 款 + 定制笔迹）
+    var fonts = ['f-sans','f-serif','f-kai','f-mono','f-cute','f-write','f-hand','f-maobi',
+                 'f-xing','f-cao','f-sui','f-xiu','f-huang','f-yozai','f-marker','f-neoxi','f-mine'];
+    for (i = 0; i < fonts.length; i++) b.classList.remove(fonts[i]);
+    b.classList.add('f-' + (GIFT.font || 'sans'));
   }
 
   function renderCover() {
