@@ -40,6 +40,7 @@ body.f-mine{font-family:'MyHand','Noto Sans CJK SC',sans-serif}
 /* ==== 字体结束 ==== */
 
 :root{
+  --cardbg:rgba(255,255,255,.065); --cardline:rgba(255,255,255,.16);
   --bg1:#1A0E1E; --bg2:#2A1428; --gold:#E8C07D; --rose:#E8B4B8;
   --cream:#F3E9DC; --dim:#A08C96;
   --name1:#FFF3DF; --name2:#E8C07D; --line:rgba(232,192,125,.45);
@@ -49,30 +50,37 @@ body.f-mine{font-family:'MyHand','Noto Sans CJK SC',sans-serif}
 }
 /* 米白 · 正式 */
 body.t-light{--bg1:#FCFAF7;--bg2:#F1EAE0;--gold:#A8803F;--rose:#B9787A;--cream:#332C26;--dim:#8B8078;
+  --cardbg:rgba(255,255,255,.72); --cardline:rgba(0,0,0,.13);
   --name1:#8A6A32;--name2:#B08A4A;--line:rgba(168,128,63,.45);--chip:rgba(168,128,63,.06);
   --chipon:rgba(168,128,63,.16);--btn:rgba(185,120,122,.45);--btnon:rgba(185,120,122,.14);--glow:rgba(168,128,63,.18)}
 /* 蜜桃 · 可爱 */
 body.t-peach{--bg1:#FFF3F0;--bg2:#FFE0E4;--gold:#E06A85;--rose:#F08CA0;--cream:#4A2C33;--dim:#B08A94;
+  --cardbg:rgba(255,255,255,.66); --cardline:rgba(200,90,120,.20);
   --name1:#C74B6B;--name2:#E06A85;--line:rgba(224,106,133,.45);--chip:rgba(224,106,133,.07);
   --chipon:rgba(224,106,133,.18);--btn:rgba(240,140,160,.5);--btnon:rgba(240,140,160,.16);--glow:rgba(224,106,133,.2);--radius:18px}
 /* 薄荷 · 清新 */
 body.t-mint{--bg1:#F2FBF7;--bg2:#D8F0E6;--gold:#3E9E7E;--rose:#6FC0A6;--cream:#22423A;--dim:#7FA396;
+  --cardbg:rgba(255,255,255,.66); --cardline:rgba(40,120,95,.18);
   --name1:#2E7D62;--name2:#3E9E7E;--line:rgba(62,158,126,.4);--chip:rgba(62,158,126,.06);
   --chipon:rgba(62,158,126,.16);--btn:rgba(111,192,166,.45);--btnon:rgba(111,192,166,.15);--glow:rgba(62,158,126,.18);--radius:14px}
 /* 夜空 · 静谧 */
 body.t-sky{--bg1:#0B1226;--bg2:#16234A;--gold:#8FB8FF;--rose:#B9A8FF;--cream:#E4ECFF;--dim:#7E8DB5;
+  --cardbg:rgba(255,255,255,.075); --cardline:rgba(160,190,255,.20);
   --name1:#DCE9FF;--name2:#8FB8FF;--line:rgba(143,184,255,.4);--chip:rgba(143,184,255,.08);
   --chipon:rgba(143,184,255,.2);--btn:rgba(185,168,255,.4);--btnon:rgba(185,168,255,.16);--glow:rgba(143,184,255,.22)}
 /* 落日 · 温暖 */
 body.t-sunset{--bg1:#2A1208;--bg2:#5A2410;--gold:#FFB25E;--rose:#FF8A6B;--cream:#FFEBDC;--dim:#C08F70;
+  --cardbg:rgba(255,255,255,.08); --cardline:rgba(255,190,120,.20);
   --name1:#FFE3C2;--name2:#FFB25E;--line:rgba(255,178,94,.42);--chip:rgba(255,178,94,.08);
   --chipon:rgba(255,178,94,.2);--btn:rgba(255,138,107,.42);--btnon:rgba(255,138,107,.16);--glow:rgba(255,178,94,.22)}
 /* 薰衣草 · 温柔 */
 body.t-lav{--bg1:#F6F1FD;--bg2:#E6DBF7;--gold:#7A5BB5;--rose:#A98BD6;--cream:#33284A;--dim:#9186AD;
+  --cardbg:rgba(255,255,255,.70); --cardline:rgba(110,80,170,.17);
   --name1:#5E4494;--name2:#7A5BB5;--line:rgba(122,91,181,.4);--chip:rgba(122,91,181,.06);
   --chipon:rgba(122,91,181,.16);--btn:rgba(169,139,214,.45);--btnon:rgba(169,139,214,.15);--glow:rgba(122,91,181,.18);--radius:16px}
 /* 墨金 · 高级 */
 body.t-ink{--bg1:#0C0C0E;--bg2:#1A1A1E;--gold:#C9A961;--rose:#9A8F7A;--cream:#EDE8DE;--dim:#7A756B;
+  --cardbg:rgba(255,255,255,.055); --cardline:rgba(201,169,97,.22);
   --name1:#F0E6D2;--name2:#C9A961;--line:rgba(201,169,97,.38);--chip:rgba(201,169,97,.06);
   --chipon:rgba(201,169,97,.16);--btn:rgba(154,143,122,.4);--btnon:rgba(154,143,122,.14);--glow:rgba(201,169,97,.2);--radius:4px}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
@@ -150,7 +158,35 @@ body.bg-stars::before{content:'';position:fixed;inset:0;pointer-events:none;z-in
 .card-photo img{width:100%;display:block;border-radius:var(--radius);
   box-shadow:0 8px 26px rgba(0,0,0,.28)}
 body.t-light .card-photo img{box-shadow:0 8px 26px rgba(90,70,50,.18)}
-.card{animation:rise .6s ease both}
+.card{animation:rise .6s ease both;display:flex;gap:22px;
+  padding:26px 22px;border-radius:var(--radius);
+  transition:background-color .3s,box-shadow .3s}
+.card-text{display:flex;flex-direction:column;min-width:0;flex:1}
+.card-title{margin-top:0}
+/* ---- 布局 ---- */
+body.ly-photo-top .card{flex-direction:column}
+body.ly-photo-top .card-photo{order:1}
+body.ly-photo-top .card-text{order:2}
+body.ly-photo-bottom .card{flex-direction:column}
+body.ly-photo-bottom .card-text{order:1}
+body.ly-photo-bottom .card-photo{order:2}
+body.ly-photo-left .card{flex-direction:row;align-items:flex-start}
+body.ly-photo-left .card-photo{order:1;flex:0 0 40%;max-width:40%;margin:0}
+body.ly-photo-left .card-text{order:2}
+body.ly-photo-left .card-title{font-size:20px;margin-bottom:12px}
+/* ---- 底纹 ---- */
+body.cs-solid .card{background-color:var(--cardbg);box-shadow:0 10px 30px rgba(0,0,0,.16)}
+body.cs-outline .card{border:1px solid var(--cardline)}
+body.cs-line .card{background-image:repeating-linear-gradient(to bottom,
+  transparent 0,transparent 39px,var(--cardline) 39px,var(--cardline) 40px)}
+body.cs-grid .card{background-image:
+  repeating-linear-gradient(to bottom,transparent 0,transparent 39px,var(--cardline) 39px,var(--cardline) 40px),
+  repeating-linear-gradient(to right,transparent 0,transparent 39px,var(--cardline) 39px,var(--cardline) 40px)}
+body.cs-dot .card{background-image:radial-gradient(var(--cardline) 1.6px,transparent 1.7px);
+  background-size:24px 24px}
+body.cs-star .card{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64'%3E%3Cg fill='%23999' fill-opacity='.42'%3E%3Ccircle cx='12' cy='14' r='1.3'/%3E%3Ccircle cx='44' cy='30' r='1'/%3E%3Ccircle cx='26' cy='50' r='1.1'/%3E%3Ccircle cx='58' cy='56' r='0.9'/%3E%3C/g%3E%3C/svg%3E");
+  background-size:64px 64px}
+body.cs-paper .card{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3CfeColorMatrix values='0 0 0 0 .5 0 0 0 0 .5 0 0 0 0 .5 0 0 0 .10 0'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)'/%3E%3C/svg%3E")}
 @keyframes rise{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
 
 /* ---------- 祝福 ---------- */
@@ -209,9 +245,11 @@ body.t-light .giftbox{filter:drop-shadow(0 12px 26px rgba(120,95,60,.22))}
   <div class="screen" id="s-cards">
     <div class="card-count" id="card-count"></div>
     <div class="card" id="card">
-      <h2 class="card-title" id="card-title"></h2>
       <div class="card-photo" id="card-photo" style="display:none"></div>
-      <div class="card-body" id="card-body"></div>
+      <div class="card-text">
+        <h2 class="card-title" id="card-title"></h2>
+        <div class="card-body" id="card-body"></div>
+      </div>
     </div>
     <button class="next" id="btn-next"></button>
   </div>
@@ -390,9 +428,12 @@ var INST = {
     var bgs = ['bg-flow','bg-glow','bg-stars'];
     for (i = 0; i < bgs.length; i++) b.classList.remove(bgs[i]);
     if (GIFT.bg && GIFT.bg !== 'still') b.classList.add('bg-' + GIFT.bg);
-    var fonts = ['f-sans','f-serif','f-kai','f-round','f-hand','f-mono'];
-    for (i = 0; i < fonts.length; i++) b.classList.remove(fonts[i]);
-    b.classList.add('f-' + (GIFT.font || 'sans'));
+    var cs = ['cs-none','cs-solid','cs-outline','cs-line','cs-grid','cs-dot','cs-star','cs-paper'];
+    for (i = 0; i < cs.length; i++) b.classList.remove(cs[i]);
+    b.classList.add('cs-' + (GIFT.card || 'none'));
+    var lys = ['ly-photo-top','ly-photo-bottom','ly-photo-left'];
+    for (i = 0; i < lys.length; i++) b.classList.remove(lys[i]);
+    b.classList.add('ly-' + (GIFT.layout || 'photo-top'));
   }
 
   function renderCover() {
