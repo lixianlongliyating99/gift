@@ -125,12 +125,12 @@ body.bg-stars::before{content:'';position:fixed;inset:0;pointer-events:none;z-in
 
 /* ---------- 封面 ---------- */
 .ornament{color:var(--gold);font-size:15px;letter-spacing:.5em;opacity:.8;margin-bottom:26px}
-.to-line{color:var(--dim);font-size:15px;letter-spacing:.28em;margin-bottom:14px}
-.name{font-size:42px;letter-spacing:.1em;line-height:1.35;margin:0 0 20px;
+.to-line{color:var(--dim);font-size:15px;display:none;letter-spacing:.28em;margin-bottom:14px}
+.name{font-size:42px;display:none;letter-spacing:.1em;line-height:1.35;margin:0 0 20px;
   background:linear-gradient(180deg,var(--name1),var(--name2));
   -webkit-background-clip:text;background-clip:text;color:transparent;
   text-shadow:0 0 32px rgba(232,192,125,.22)}
-.date{color:var(--rose);font-size:16px;letter-spacing:.22em;margin-bottom:52px}
+.date{color:var(--rose);font-size:16px;display:none;letter-spacing:.22em;margin-bottom:52px}
 .tap{
   border:1px solid var(--line);background:var(--chip);
   color:var(--gold);border-radius:999px;padding:14px 34px;font-size:15px;
@@ -139,6 +139,40 @@ body.bg-stars::before{content:'';position:fixed;inset:0;pointer-events:none;z-in
 }
 .tap:active{background:var(--chipon)}
 @keyframes breathe{0%,100%{opacity:.72}50%{opacity:1}}
+
+/* ---------- 信封 ---------- */
+.envelope{position:relative;width:min(78vw,300px);aspect-ratio:1.5/1;
+  perspective:900px;margin-bottom:34px;cursor:pointer;z-index:2}
+.env-body{position:absolute;inset:0;border-radius:12px;
+  background:linear-gradient(158deg,#FFF4F5,#F3D3D9 60%,#E9C3CB);
+  box-shadow:0 22px 55px rgba(0,0,0,.32)}
+.env-letter{position:absolute;left:7%;right:7%;top:6%;bottom:8%;z-index:2;
+  border-radius:8px;background:#fff;
+  display:flex;flex-direction:column;align-items:center;justify-content:flex-end;
+  padding-bottom:11%;
+  box-shadow:0 6px 18px rgba(0,0,0,.12);
+  transition:transform 1s cubic-bezier(.34,.9,.4,1) .4s}
+.env-to{color:#B08A94;font-size:13px;letter-spacing:.3em;margin-bottom:8px}
+.env-name{font-size:30px;letter-spacing:.1em;color:#8A5A66;font-weight:600;line-height:1.3}
+.env-date{color:#B98A94;font-size:12px;letter-spacing:.16em;margin-top:10px}
+.env-flap{position:absolute;left:0;right:0;top:0;height:52%;z-index:3;
+  background:linear-gradient(158deg,#F7DDE2,#E7BAC3);
+  clip-path:polygon(0 0,100% 0,50% 100%);
+  transform-origin:top center;border-radius:12px 12px 0 0;
+  transition:transform .85s cubic-bezier(.4,0,.2,1);backface-visibility:hidden}
+.env-seal{position:absolute;left:50%;top:52%;transform:translate(-50%,-50%);z-index:4;
+  width:46px;height:46px;border-radius:50%;color:#E8C07D;font-size:19px;
+  display:flex;align-items:center;justify-content:center;
+  background:radial-gradient(circle at 34% 28%,#9A5F5F,#5A2E2E 70%);
+  box-shadow:0 4px 12px rgba(0,0,0,.4),inset 0 -2px 6px rgba(0,0,0,.3);
+  transition:opacity .35s,transform .45s}
+.envelope.open .env-flap{transform:rotateX(-176deg)}
+.envelope.open .env-letter{transform:translateY(-58%) scale(.96)}
+.envelope.open .env-seal{opacity:0;transform:translate(-50%,-50%) scale(.5) rotate(28deg)}
+.envelope.open .env-body{box-shadow:0 10px 30px rgba(0,0,0,.22)}
+.tap-hint{color:var(--dim);font-size:14px;letter-spacing:.28em;
+  animation:breathe 2.6s ease-in-out infinite;transition:opacity .4s}
+.reveal .tap-hint{opacity:0}
 
 /* ---------- 回忆卡片 ---------- */
 #s-cards{justify-content:center}
@@ -174,6 +208,34 @@ body.ly-photo-left .card{flex-direction:row;align-items:flex-start}
 body.ly-photo-left .card-photo{order:1;flex:0 0 40%;max-width:40%;margin:0}
 body.ly-photo-left .card-text{order:2}
 body.ly-photo-left .card-title{font-size:20px;margin-bottom:12px}
+/* ---- 四角装饰 ---- */
+.card{position:relative}
+body.dc-flower .card::after,body.dc-paw .card::after,body.dc-leaf .card::after,body.dc-heart .card::after{
+  content:'';position:absolute;inset:7px;pointer-events:none;border-radius:inherit;
+  background-repeat:no-repeat;
+  background-position:left top,right top,left bottom,right bottom;
+  background-size:46px 46px;opacity:.85}
+body.dc-flower .card::after{background-image:
+  url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Cg fill='none' stroke='%23A8B79A' stroke-width='1.6' stroke-linecap='round'%3E%3Cpath d='M4 20c6-2 10-6 12-12'/%3E%3Ccircle cx='7' cy='7' r='3.2'/%3E%3Ccircle cx='14' cy='4' r='2.2'/%3E%3Ccircle cx='4' cy='14' r='2.2'/%3E%3Cpath d='M20 5c2 4 5 6 9 6'/%3E%3C/g%3E%3C/svg%3E"),
+  url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Cg fill='none' stroke='%23A8B79A' stroke-width='1.6' stroke-linecap='round'%3E%3Cpath d='M36 20c-6-2-10-6-12-12'/%3E%3Ccircle cx='33' cy='7' r='3.2'/%3E%3Ccircle cx='26' cy='4' r='2.2'/%3E%3Ccircle cx='36' cy='14' r='2.2'/%3E%3C/g%3E%3C/svg%3E"),
+  url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Cg fill='none' stroke='%23A8B79A' stroke-width='1.6' stroke-linecap='round'%3E%3Cpath d='M4 20c6 2 10 6 12 12'/%3E%3Ccircle cx='7' cy='33' r='3.2'/%3E%3Ccircle cx='14' cy='36' r='2.2'/%3E%3Ccircle cx='4' cy='26' r='2.2'/%3E%3C/g%3E%3C/svg%3E"),
+  url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Cg fill='none' stroke='%23A8B79A' stroke-width='1.6' stroke-linecap='round'%3E%3Cpath d='M36 20c-6 2-10 6-12 12'/%3E%3Ccircle cx='33' cy='33' r='3.2'/%3E%3Ccircle cx='26' cy='36' r='2.2'/%3E%3Ccircle cx='36' cy='26' r='2.2'/%3E%3C/g%3E%3C/svg%3E")}
+body.dc-paw .card::after{background-image:
+  url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Cg fill='%23E8A0B4' fill-opacity='.55'%3E%3Cellipse cx='10' cy='16' rx='5' ry='4.2'/%3E%3Ccircle cx='5' cy='9' r='2.4'/%3E%3Ccircle cx='11' cy='6.5' r='2.4'/%3E%3Ccircle cx='17' cy='9' r='2.4'/%3E%3C/g%3E%3C/svg%3E"),
+  url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Cg fill='%23E8A0B4' fill-opacity='.55'%3E%3Cellipse cx='30' cy='16' rx='5' ry='4.2'/%3E%3Ccircle cx='23' cy='9' r='2.4'/%3E%3Ccircle cx='29' cy='6.5' r='2.4'/%3E%3Ccircle cx='35' cy='9' r='2.4'/%3E%3C/g%3E%3C/svg%3E"),
+  url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Cg fill='%23E8A0B4' fill-opacity='.55'%3E%3Cellipse cx='10' cy='24' rx='5' ry='4.2'/%3E%3Ccircle cx='5' cy='31' r='2.4'/%3E%3Ccircle cx='11' cy='33.5' r='2.4'/%3E%3Ccircle cx='17' cy='31' r='2.4'/%3E%3C/g%3E%3C/svg%3E"),
+  url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Cg fill='%23E8A0B4' fill-opacity='.55'%3E%3Cellipse cx='30' cy='24' rx='5' ry='4.2'/%3E%3Ccircle cx='23' cy='31' r='2.4'/%3E%3Ccircle cx='29' cy='33.5' r='2.4'/%3E%3Ccircle cx='35' cy='31' r='2.4'/%3E%3C/g%3E%3C/svg%3E")}
+body.dc-leaf .card::after{background-image:
+  url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Cg fill='none' stroke='%238FB79A' stroke-width='1.5' stroke-linecap='round'%3E%3Cpath d='M6 22c0-8 6-14 14-14 0 8-6 14-14 14z'/%3E%3Cpath d='M6 22c4-6 8-10 14-14'/%3E%3C/g%3E%3C/svg%3E"),
+  url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Cg fill='none' stroke='%238FB79A' stroke-width='1.5' stroke-linecap='round'%3E%3Cpath d='M34 22c0-8-6-14-14-14 0 8 6 14 14 14z'/%3E%3Cpath d='M34 22c-4-6-8-10-14-14'/%3E%3C/g%3E%3C/svg%3E"),
+  url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Cg fill='none' stroke='%238FB79A' stroke-width='1.5' stroke-linecap='round'%3E%3Cpath d='M6 18c0 8 6 14 14 14 0-8-6-14-14-14z'/%3E%3Cpath d='M6 18c4 6 8 10 14 14'/%3E%3C/g%3E%3C/svg%3E"),
+  url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Cg fill='none' stroke='%238FB79A' stroke-width='1.5' stroke-linecap='round'%3E%3Cpath d='M34 18c0 8-6 14-14 14 0-8 6-14 14-14z'/%3E%3Cpath d='M34 18c-4 6-8 10-14 14'/%3E%3C/g%3E%3C/svg%3E")}
+body.dc-heart .card::after{background-image:
+  url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Cpath d='M12 8c-3 0-5 2.4-5 5 0 5 5 8 9 12 4-4 9-7 9-12 0-2.6-2-5-5-5-2 0-3.4 1-4 2-.6-1-2-2-4-2z' fill='%23E8A0B4' fill-opacity='.6'/%3E%3C/svg%3E"),
+  url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Cpath d='M28 8c-3 0-5 2.4-5 5 0 5 5 8 9 12 4-4 9-7 9-12 0-2.6-2-5-5-5-2 0-3.4 1-4 2-.6-1-2-2-4-2z' fill='%23E8A0B4' fill-opacity='.6'/%3E%3C/svg%3E"),
+  url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Cpath d='M12 32c-3 0-5-2.4-5-5 0-5 5-8 9-12 4 4 9 7 9 12 0 2.6-2 5-5 5-2 0-3.4-1-4-2-.6 1-2 2-4 2z' fill='%23E8A0B4' fill-opacity='.6'/%3E%3C/svg%3E"),
+  url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Cpath d='M28 32c-3 0-5-2.4-5-5 0-5 5-8 9-12 4 4 9 7 9 12 0 2.6-2 5-5 5-2 0-3.4-1-4-2-.6 1-2 2-4 2z' fill='%23E8A0B4' fill-opacity='.6'/%3E%3C/svg%3E")}
+
 /* ---- 底纹 ---- */
 body.cs-solid .card{background-color:var(--cardbg);box-shadow:0 10px 30px rgba(0,0,0,.16)}
 body.cs-outline .card{border:1px solid var(--cardline)}
@@ -234,11 +296,17 @@ body.t-light .giftbox{filter:drop-shadow(0 12px 26px rgba(120,95,60,.22))}
 
   <!-- 封面 -->
   <div class="screen on" id="s-cover">
-    <div class="ornament">✦ ✦ ✦</div>
-    <div class="to-line" id="cover-to">给</div>
-    <h1 class="name" id="cover-name"></h1>
-    <div class="date" id="cover-date"></div>
-    <button class="tap" id="btn-start">点 一 下 开 始</button>
+    <div class="envelope" id="envelope">
+      <div class="env-body"></div>
+      <div class="env-letter">
+        <div class="env-to" id="cover-to">给</div>
+        <div class="env-name" id="cover-name"></div>
+        <div class="env-date" id="cover-date"></div>
+      </div>
+      <div class="env-flap"></div>
+      <div class="env-seal" id="env-seal">♥</div>
+    </div>
+    <div class="tap-hint" id="tap-hint">点 一 下 拆 开</div>
   </div>
 
   <!-- 回忆卡片 -->
@@ -322,6 +390,19 @@ var GIFT = {
 })();
 
 /* ==== 曲库（全部为公有领域旋律）+ 音色 ==== */
+/* ==== 套装预设（一键套用配色+底纹+字体+背景+装饰）==== */
+var SETS = {
+  letter:  {n:'经典信纸', theme:'light',  card:'line',    font:'hand',  bg:'still', deco:'flower'},
+  wax:     {n:'粉色蜡封', theme:'peach',  card:'solid',   font:'write', bg:'glow',  deco:'none'},
+  cute:    {n:'可爱动物', theme:'peach',  card:'dot',     font:'cute',  bg:'stars', deco:'paw'},
+  night:   {n:'星空信笺', theme:'sky',    card:'star',    font:'write', bg:'stars', deco:'none'},
+  minimal: {n:'极简白',   theme:'light',  card:'none',    font:'sans',  bg:'still', deco:'none'},
+  inkgold: {n:'墨金',     theme:'ink',    card:'outline', font:'xiu',   bg:'still', deco:'none'},
+  mintset: {n:'薄荷清新', theme:'mint',   card:'paper',   font:'yozai', bg:'flow',  deco:'leaf'},
+  sunset:  {n:'落日暖阳', theme:'sunset', card:'solid',   font:'maobi', bg:'glow',  deco:'none'}
+};
+/* ==== 套装结束 ==== */
+
 var NOTE = {
   C3:130.81,D3:146.83,E3:164.81,F3:174.61,G3:196.00,A3:220.00,B3:246.94,
   C4:261.63,'C#4':277.18,D4:293.66,'D#4':311.13,E4:329.63,F4:349.23,'F#4':369.99,
@@ -439,6 +520,9 @@ var INST = {
                  'f-xing','f-cao','f-sui','f-xiu','f-huang','f-yozai','f-marker','f-neoxi','f-mine'];
     for (i = 0; i < fonts.length; i++) b.classList.remove(fonts[i]);
     b.classList.add('f-' + (GIFT.font || 'sans'));
+    var dcs = ['dc-none','dc-flower','dc-paw','dc-leaf','dc-heart'];
+    for (i = 0; i < dcs.length; i++) b.classList.remove(dcs[i]);
+    b.classList.add('dc-' + (GIFT.deco || 'none'));
   }
 
   function renderCover() {
@@ -545,11 +629,18 @@ var INST = {
     $('mute').style.color = muted ? '#6B5A63' : '#E8C07D';
   }
 
-  $('btn-start').addEventListener('click', function () {
+  var opened = false;
+  $('envelope').addEventListener('click', function () {
+    if (opened) return;
+    opened = true;
     if (!muted) playMusic();
-    idx = 0;
-    renderCard();
-    show('s-cards');
+    this.classList.add('open');
+    $('s-cover').classList.add('reveal');
+    setTimeout(function () {
+      idx = 0;
+      renderCard();
+      show('s-cards');
+    }, 1500);
   });
 
   $('btn-next').addEventListener('click', function () {
