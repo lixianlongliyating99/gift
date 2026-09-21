@@ -7,10 +7,74 @@
 <meta name="theme-color" content="#1A0E1E">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='15' fill='%231A0E1E'/><path d='M32 46s-14-8.6-14-18a8 8 0 0 1 14-5 8 8 0 0 1 14 5c0 9.4-14 18-14 18z' fill='%23E8B4B8'/></svg>">
 <style>
+body.f-sans{font-family:-apple-system,BlinkMacSystemFont,'Noto Sans CJK SC','PingFang SC',sans-serif}
+body.f-serif{font-family:'Noto Serif CJK SC','Songti SC',serif}
+body.f-kai{font-family:'Kaiti SC','KaiTi','Noto Serif CJK SC',serif}
+body.f-mono{font-family:ui-monospace,Menlo,Consolas,'Noto Sans Mono CJK SC',monospace}
+/* ==== 内置字体（SIL OFL 开源可商用）==== */
+@font-face{font-family:'ZCOOL KuaiLe';font-style:normal;font-weight:400;font-display:swap;src:url(ZCOOL.woff2) format('woff2')}
+body.f-cute{font-family:'ZCOOL KuaiLe','Noto Sans CJK SC',sans-serif}
+@font-face{font-family:'Xiaolai';font-style:normal;font-weight:400;font-display:swap;src:url(Xiaolai.woff2) format('woff2')}
+body.f-write{font-family:'Xiaolai','Noto Sans CJK SC',sans-serif}
+@font-face{font-family:'LXGW WenKai';font-style:normal;font-weight:400;font-display:swap;src:url(LXGW.woff2) format('woff2')}
+body.f-hand{font-family:'LXGW WenKai','Noto Sans CJK SC',sans-serif}
+@font-face{font-family:'Ma Shan Zheng';font-style:normal;font-weight:400;font-display:swap;src:url(MaShanZheng.woff2) format('woff2')}
+body.f-maobi{font-family:'Ma Shan Zheng','Noto Sans CJK SC',sans-serif}
+@font-face{font-family:'Zhi Mang Xing';font-style:normal;font-weight:400;font-display:swap;src:url(ZhiMangXing.woff2) format('woff2')}
+body.f-xing{font-family:'Zhi Mang Xing','Noto Sans CJK SC',sans-serif}
+@font-face{font-family:'Liu Jian Mao Cao';font-style:normal;font-weight:400;font-display:swap;src:url(LiuJianMaoCao.woff2) format('woff2')}
+body.f-cao{font-family:'Liu Jian Mao Cao','Noto Sans CJK SC',sans-serif}
+@font-face{font-family:'Long Cang';font-style:normal;font-weight:400;font-display:swap;src:url(LongCang.woff2) format('woff2')}
+body.f-sui{font-family:'Long Cang','Noto Sans CJK SC',sans-serif}
+@font-face{font-family:'ZCOOL XiaoWei';font-style:normal;font-weight:400;font-display:swap;src:url(ZCOOLXiaoWei.woff2) format('woff2')}
+body.f-xiu{font-family:'ZCOOL XiaoWei','Noto Sans CJK SC',sans-serif}
+@font-face{font-family:'ZCOOL QingKe';font-style:normal;font-weight:400;font-display:swap;src:url(ZCOOLQingKe.woff2) format('woff2')}
+body.f-huang{font-family:'ZCOOL QingKe','Noto Sans CJK SC',sans-serif}
+@font-face{font-family:'Yozai';font-style:normal;font-weight:400;font-display:swap;src:url(Yozai.woff2) format('woff2')}
+body.f-yozai{font-family:'Yozai','Noto Sans CJK SC',sans-serif}
+@font-face{font-family:'LXGW Marker Gothic';font-style:normal;font-weight:400;font-display:swap;src:url(LxgwMarker.woff2) format('woff2')}
+body.f-marker{font-family:'LXGW Marker Gothic','Noto Sans CJK SC',sans-serif}
+@font-face{font-family:'LXGW Neo XiHei';font-style:normal;font-weight:400;font-display:swap;src:url(neoxihei.woff2) format('woff2')}
+body.f-neoxi{font-family:'LXGW Neo XiHei','Noto Sans CJK SC',sans-serif}
+body.f-mine{font-family:'MyHand','Noto Sans CJK SC',sans-serif}
+/* ==== 字体结束 ==== */
+
 :root{
   --bg1:#1A0E1E; --bg2:#2A1428; --gold:#E8C07D; --rose:#E8B4B8;
   --cream:#F3E9DC; --dim:#A08C96;
+  --name1:#FFF3DF; --name2:#E8C07D; --line:rgba(232,192,125,.45);
+  --chip:rgba(232,192,125,.07); --chipon:rgba(232,192,125,.2);
+  --btn:rgba(232,180,184,.4); --btnon:rgba(232,180,184,.14);
+  --glow:rgba(232,192,125,.22); --radius:10px;
 }
+/* 米白 · 正式 */
+body.t-light{--bg1:#FCFAF7;--bg2:#F1EAE0;--gold:#A8803F;--rose:#B9787A;--cream:#332C26;--dim:#8B8078;
+  --name1:#8A6A32;--name2:#B08A4A;--line:rgba(168,128,63,.45);--chip:rgba(168,128,63,.06);
+  --chipon:rgba(168,128,63,.16);--btn:rgba(185,120,122,.45);--btnon:rgba(185,120,122,.14);--glow:rgba(168,128,63,.18)}
+/* 蜜桃 · 可爱 */
+body.t-peach{--bg1:#FFF3F0;--bg2:#FFE0E4;--gold:#E06A85;--rose:#F08CA0;--cream:#4A2C33;--dim:#B08A94;
+  --name1:#C74B6B;--name2:#E06A85;--line:rgba(224,106,133,.45);--chip:rgba(224,106,133,.07);
+  --chipon:rgba(224,106,133,.18);--btn:rgba(240,140,160,.5);--btnon:rgba(240,140,160,.16);--glow:rgba(224,106,133,.2);--radius:18px}
+/* 薄荷 · 清新 */
+body.t-mint{--bg1:#F2FBF7;--bg2:#D8F0E6;--gold:#3E9E7E;--rose:#6FC0A6;--cream:#22423A;--dim:#7FA396;
+  --name1:#2E7D62;--name2:#3E9E7E;--line:rgba(62,158,126,.4);--chip:rgba(62,158,126,.06);
+  --chipon:rgba(62,158,126,.16);--btn:rgba(111,192,166,.45);--btnon:rgba(111,192,166,.15);--glow:rgba(62,158,126,.18);--radius:14px}
+/* 夜空 · 静谧 */
+body.t-sky{--bg1:#0B1226;--bg2:#16234A;--gold:#8FB8FF;--rose:#B9A8FF;--cream:#E4ECFF;--dim:#7E8DB5;
+  --name1:#DCE9FF;--name2:#8FB8FF;--line:rgba(143,184,255,.4);--chip:rgba(143,184,255,.08);
+  --chipon:rgba(143,184,255,.2);--btn:rgba(185,168,255,.4);--btnon:rgba(185,168,255,.16);--glow:rgba(143,184,255,.22)}
+/* 落日 · 温暖 */
+body.t-sunset{--bg1:#2A1208;--bg2:#5A2410;--gold:#FFB25E;--rose:#FF8A6B;--cream:#FFEBDC;--dim:#C08F70;
+  --name1:#FFE3C2;--name2:#FFB25E;--line:rgba(255,178,94,.42);--chip:rgba(255,178,94,.08);
+  --chipon:rgba(255,178,94,.2);--btn:rgba(255,138,107,.42);--btnon:rgba(255,138,107,.16);--glow:rgba(255,178,94,.22)}
+/* 薰衣草 · 温柔 */
+body.t-lav{--bg1:#F6F1FD;--bg2:#E6DBF7;--gold:#7A5BB5;--rose:#A98BD6;--cream:#33284A;--dim:#9186AD;
+  --name1:#5E4494;--name2:#7A5BB5;--line:rgba(122,91,181,.4);--chip:rgba(122,91,181,.06);
+  --chipon:rgba(122,91,181,.16);--btn:rgba(169,139,214,.45);--btnon:rgba(169,139,214,.15);--glow:rgba(122,91,181,.18);--radius:16px}
+/* 墨金 · 高级 */
+body.t-ink{--bg1:#0C0C0E;--bg2:#1A1A1E;--gold:#C9A961;--rose:#9A8F7A;--cream:#EDE8DE;--dim:#7A756B;
+  --name1:#F0E6D2;--name2:#C9A961;--line:rgba(201,169,97,.38);--chip:rgba(201,169,97,.06);
+  --chipon:rgba(201,169,97,.16);--btn:rgba(154,143,122,.4);--btnon:rgba(154,143,122,.14);--glow:rgba(201,169,97,.2);--radius:4px}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{margin:0;height:100%}
 body{
@@ -18,7 +82,26 @@ body{
   color:var(--cream);
   font-family:-apple-system,BlinkMacSystemFont,"Noto Serif CJK SC","Songti SC","PingFang SC",serif;
   overflow:hidden;touch-action:manipulation;
+  background-size:100% 100%;
 }
+/* 流动渐变 */
+body.bg-flow{background:linear-gradient(135deg,var(--bg1),var(--bg2),var(--bg1),var(--bg2));
+  background-size:400% 400%;animation:flowbg 22s ease infinite}
+@keyframes flowbg{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+/* 呼吸光晕 */
+body.bg-glow::before{content:'';position:fixed;inset:-20%;pointer-events:none;z-index:0;
+  background:radial-gradient(45% 35% at 50% 35%,var(--glow),transparent 70%);
+  animation:breathe 7s ease-in-out infinite}
+@keyframes breathe{0%,100%{transform:scale(1);opacity:.55}50%{transform:scale(1.25);opacity:1}}
+/* 星点飘动 */
+body.bg-stars::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.5;
+  background-image:radial-gradient(2px 2px at 20% 30%,var(--gold),transparent),
+    radial-gradient(2px 2px at 70% 60%,var(--rose),transparent),
+    radial-gradient(1.5px 1.5px at 40% 80%,var(--gold),transparent),
+    radial-gradient(1.5px 1.5px at 85% 20%,var(--rose),transparent);
+  animation:twinkle 6s ease-in-out infinite}
+@keyframes twinkle{0%,100%{opacity:.25}50%{opacity:.7}}
+#app{position:relative;z-index:1}
 #app{height:100vh;height:100dvh;display:flex;flex-direction:column;position:relative}
 .screen{
   position:absolute;inset:0;display:none;flex-direction:column;
@@ -30,49 +113,55 @@ body{
 .screen.on{display:flex;animation:fade .7s ease both}
 @keyframes fade{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
 
+/* ---------- 字体 ---------- */
+
 /* ---------- 封面 ---------- */
 .ornament{color:var(--gold);font-size:15px;letter-spacing:.5em;opacity:.8;margin-bottom:26px}
 .to-line{color:var(--dim);font-size:15px;letter-spacing:.28em;margin-bottom:14px}
-.name{font-size:40px;letter-spacing:.1em;line-height:1.35;margin:0 0 20px;
-  background:linear-gradient(180deg,#FFF3DF,var(--gold));
+.name{font-size:42px;letter-spacing:.1em;line-height:1.35;margin:0 0 20px;
+  background:linear-gradient(180deg,var(--name1),var(--name2));
   -webkit-background-clip:text;background-clip:text;color:transparent;
   text-shadow:0 0 32px rgba(232,192,125,.22)}
-.date{color:var(--rose);font-size:15px;letter-spacing:.22em;margin-bottom:52px}
+.date{color:var(--rose);font-size:16px;letter-spacing:.22em;margin-bottom:52px}
 .tap{
-  border:1px solid rgba(232,192,125,.45);background:rgba(232,192,125,.07);
+  border:1px solid var(--line);background:var(--chip);
   color:var(--gold);border-radius:999px;padding:14px 34px;font-size:15px;
   letter-spacing:.22em;cursor:pointer;font-family:inherit;
   animation:breathe 2.6s ease-in-out infinite;
 }
-.tap:active{background:rgba(232,192,125,.2)}
+.tap:active{background:var(--chipon)}
 @keyframes breathe{0%,100%{opacity:.72}50%{opacity:1}}
 
 /* ---------- 回忆卡片 ---------- */
 #s-cards{justify-content:center}
 .card-count{color:var(--dim);font-size:12px;letter-spacing:.3em;margin-bottom:20px}
-.card-title{color:var(--gold);font-size:21px;letter-spacing:.08em;margin:0 0 18px}
+.card-title{color:var(--gold);font-size:24px;letter-spacing:.08em;margin:0 0 20px}
 .card-body{
-  font-size:17px;line-height:2;color:var(--cream);max-width:30em;
+  font-size:19px;line-height:2.15;color:var(--cream);max-width:26em;
   white-space:pre-wrap;text-align:left;
 }
 .next{
-  margin-top:44px;border:1px solid rgba(232,180,184,.4);background:transparent;
+  margin-top:44px;border:1px solid var(--btn);border-radius:999px;background:transparent;
   color:var(--rose);border-radius:999px;padding:12px 30px;font-size:14px;
   letter-spacing:.2em;cursor:pointer;font-family:inherit;
 }
-.next:active{background:rgba(232,180,184,.14)}
+.next:active{background:var(--btnon)}
+.card-photo{margin:0 auto 20px;max-width:78%}
+.card-photo img{width:100%;display:block;border-radius:var(--radius);
+  box-shadow:0 8px 26px rgba(0,0,0,.28)}
+body.t-light .card-photo img{box-shadow:0 8px 26px rgba(90,70,50,.18)}
 .card{animation:rise .6s ease both}
 @keyframes rise{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
 
 /* ---------- 祝福 ---------- */
 #s-wish .wish{
-  font-size:18px;line-height:2.15;white-space:pre-wrap;max-width:30em;
+  font-size:19.5px;line-height:2.25;white-space:pre-wrap;max-width:30em;
   margin:6px 0 34px;text-align:left;
 }
 .sign{color:var(--gold);font-size:16px;letter-spacing:.16em}
 .sign-sub{color:var(--dim);font-size:12px;letter-spacing:.3em;margin-top:10px}
 .more{
-  margin-top:46px;border:1px solid rgba(232,192,125,.3);background:transparent;
+  margin-top:46px;border:1px solid var(--line);background:transparent;
   color:var(--dim);border-radius:999px;padding:11px 24px;font-size:13px;
   letter-spacing:.16em;cursor:pointer;font-family:inherit;
 }
@@ -83,6 +172,18 @@ body{
   15%{opacity:.9}
   100%{opacity:0;transform:translateY(-104vh) scale(1.15)}
 }
+#s-claim{justify-content:center}
+.giftbox{color:var(--gold);cursor:pointer;user-select:none;line-height:0;
+  animation:shake 2.4s ease-in-out infinite;
+  filter:drop-shadow(0 12px 26px rgba(0,0,0,.28))}
+body.t-light .giftbox{filter:drop-shadow(0 12px 26px rgba(120,95,60,.22))}
+.giftbox svg{display:block}
+.giftbox.open{animation:pop .6s ease both}
+@keyframes shake{0%,100%{transform:rotate(0) scale(1)}25%{transform:rotate(-6deg) scale(1.04)}
+  75%{transform:rotate(6deg) scale(1.04)}}
+@keyframes pop{0%{transform:scale(1)}45%{transform:scale(1.5)}100%{transform:scale(0);opacity:0}}
+.claim-tip{color:var(--dim);font-size:15px;letter-spacing:.22em;margin-top:30px}
+.claim-sub{color:var(--gold);font-size:13px;letter-spacing:.3em;margin-top:10px;opacity:.85}
 #mute{
   position:absolute;right:16px;top:calc(14px + env(safe-area-inset-top));
   z-index:5;background:none;border:0;color:var(--dim);font-size:19px;
@@ -109,9 +210,26 @@ body{
     <div class="card-count" id="card-count"></div>
     <div class="card" id="card">
       <h2 class="card-title" id="card-title"></h2>
+      <div class="card-photo" id="card-photo" style="display:none"></div>
       <div class="card-body" id="card-body"></div>
     </div>
     <button class="next" id="btn-next"></button>
+  </div>
+
+  <!-- 拆礼物 -->
+  <div class="screen" id="s-claim">
+    <div class="giftbox" id="giftbox">
+      <svg viewBox="0 0 100 100" width="118" height="118" fill="none" stroke="currentColor"
+           stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="16" y="44" width="68" height="42" rx="5"/>
+        <rect x="10" y="29" width="80" height="17" rx="5"/>
+        <path d="M50 29v57"/>
+        <path d="M50 29c-4-15-21-19-25-8-3 8 13 10 25 8z"/>
+        <path d="M50 29c4-15 21-19 25-8 3 8-13 10-25 8z"/>
+      </svg>
+    </div>
+    <div class="claim-tip">点 一 下 ， 拆 开</div>
+    <div class="claim-sub" id="claim-sub"></div>
   </div>
 
   <!-- 祝福 -->
@@ -165,17 +283,116 @@ var GIFT = {
   } catch (e) { /* 数据坏了就退回默认内容，不白屏 */ }
 })();
 
+/* ==== 曲库（全部为公有领域旋律）+ 音色 ==== */
+var NOTE = {
+  C3:130.81,D3:146.83,E3:164.81,F3:174.61,G3:196.00,A3:220.00,B3:246.94,
+  C4:261.63,'C#4':277.18,D4:293.66,'D#4':311.13,E4:329.63,F4:349.23,'F#4':369.99,
+  G4:392.00,'G#4':415.30,A4:440.00,'A#4':466.16,B4:493.88,
+  C5:523.25,'C#5':554.37,D5:587.33,'D#5':622.25,E5:659.25,F5:698.46,'F#5':739.99,
+  G5:783.99,'G#5':830.61,A5:880.00,'A#5':932.33,B5:987.77,C6:1046.50,D6:1174.66,E6:1318.51
+};
+function m(){ var a=[].slice.call(arguments); return a; }
+
+var SONGS = {
+  birthday: { name:'生日快乐', bpm:0.50, notes:m(
+    'G4',.5,'G4',.5,'A4',1,'G4',1,'C5',1,'B4',2,
+    'G4',.5,'G4',.5,'A4',1,'G4',1,'D5',1,'C5',2,
+    'G4',.5,'G4',.5,'G5',1,'E5',1,'C5',1,'B4',1,'A4',2,
+    'F5',.5,'F5',.5,'E5',1,'C5',1,'D5',1,'C5',2)},
+  twinkle: { name:'小星星', bpm:0.42, notes:m(
+    'C4',1,'C4',1,'G4',1,'G4',1,'A4',1,'A4',1,'G4',2,
+    'F4',1,'F4',1,'E4',1,'E4',1,'D4',1,'D4',1,'C4',2,
+    'G4',1,'G4',1,'F4',1,'F4',1,'E4',1,'E4',1,'D4',2,
+    'G4',1,'G4',1,'F4',1,'F4',1,'E4',1,'E4',1,'D4',2,
+    'C4',1,'C4',1,'G4',1,'G4',1,'A4',1,'A4',1,'G4',2,
+    'F4',1,'F4',1,'E4',1,'E4',1,'D4',1,'D4',1,'C4',2)},
+  joy: { name:'欢乐颂', bpm:0.40, notes:m(
+    'E4',1,'E4',1,'F4',1,'G4',1,'G4',1,'F4',1,'E4',1,'D4',1,
+    'C4',1,'C4',1,'D4',1,'E4',1,'E4',1.5,'D4',.5,'D4',2,
+    'E4',1,'E4',1,'F4',1,'G4',1,'G4',1,'F4',1,'E4',1,'D4',1,
+    'C4',1,'C4',1,'D4',1,'E4',1,'D4',1.5,'C4',.5,'C4',2)},
+  elise: { name:'致爱丽丝', bpm:0.30, notes:m(
+    'E5',.5,'D#5',.5,'E5',.5,'D#5',.5,'E5',.5,'B4',.5,'D5',.5,'C5',.5,'A4',1.5,
+    'C4',.5,'E4',.5,'A4',.5,'B4',1.5,
+    'E4',.5,'G#4',.5,'B4',.5,'C5',1.5,
+    'E4',.5,'E5',.5,'D#5',.5,'E5',.5,'D#5',.5,'E5',.5,'B4',.5,'D5',.5,'C5',.5,'A4',1.5,
+    'C4',.5,'E4',.5,'A4',.5,'B4',1.5,
+    'E4',.5,'C5',.5,'B4',.5,'A4',3)},
+  canon: { name:'卡农', bpm:0.55, notes:m(
+    'F#5',2,'E5',2,'D5',2,'C#5',2,'B4',2,'A4',2,'B4',2,'C#5',2,
+    'D5',2,'C#5',2,'B4',2,'A4',2,'G4',2,'F#4',2,'G4',2,'E4',2)},
+  green: { name:'绿袖子', bpm:0.42, notes:m(
+    'A4',1,'C5',2,'D5',1,'E5',1.5,'F5',.5,'E5',1,'D5',2,
+    'B4',1,'G4',1.5,'A4',.5,'B4',1,'C5',2,
+    'A4',1,'A4',1.5,'G#4',.5,'A4',1,'B4',2,
+    'G#4',1,'E4',3)},
+  silent: { name:'平安夜', bpm:0.55, notes:m(
+    'G4',.75,'A4',.25,'G4',1,'E4',3,
+    'G4',.75,'A4',.25,'G4',1,'E4',3,
+    'D5',2,'D5',1,'B4',3,
+    'C5',2,'C5',1,'G4',3)},
+  jingle: { name:'铃儿响叮当', bpm:0.32, notes:m(
+    'E4',1,'E4',1,'E4',2,'E4',1,'E4',1,'E4',2,
+    'E4',1,'G4',1,'C4',1.5,'D4',.5,'E4',4,
+    'F4',1,'F4',1,'F4',1.5,'F4',.5,'F4',1,'E4',1,'E4',1,'E4',.5,'E4',.5,
+    'E4',1,'D4',1,'D4',1,'E4',1,'D4',2,'G4',2)},
+  auld: { name:'友谊地久天长', bpm:0.45, notes:m(
+    'C4',1,'F4',1.5,'E4',.5,'F4',1,'A4',1,'G4',1,'F4',1.5,'F4',.5,
+    'A4',1,'C5',1,'D5',1.5,'D5',.5,'C5',1,'A4',1,'F4',1.5,'F4',.5,
+    'A4',1,'G4',1,'F4',1,'G4',1,'A4',2,'F4',2)},
+  lullaby: { name:'摇篮曲', bpm:0.60, notes:m(
+    'E4',.5,'E4',.5,'G4',1.5,'E4',.5,'E4',.5,'G4',1.5,
+    'E4',.5,'E4',.5,'G4',1,'E4',1,'C5',1,'B4',1,'A4',1,'G4',1,'F4',1,'D4',1,'E4',2)},
+  turkish: { name:'土耳其进行曲', bpm:0.26, notes:m(
+    'B4',.5,'A4',.5,'G#4',.5,'A4',.5,'C5',1,'D5',.5,'C5',.5,'B4',.5,'C5',.5,'E5',1,
+    'F5',.5,'E5',.5,'D#5',.5,'E5',.5,'B5',1,'A5',.5,'G#5',.5,'A5',.5,'B5',.5,'C6',1,
+    'D6',.5,'C6',.5,'B5',.5,'C6',.5,'E6',1,'E6',1,
+    'B5',.5,'A5',.5,'G#5',.5,'A5',.5,'B5',1,'C6',.5,'B5',.5,'A5',.5,'G#5',.5,'A5',2)},
+  jasmin: { name:'茉莉花', bpm:0.55, notes:m(
+    'E5',1,'E5',1,'G5',1,'A5',1,'C6',1,'A5',1,'G5',2,
+    'G5',1,'A5',1,'G5',1,'E5',1,'D5',1,'E5',2,
+    'E5',1,'E5',1,'G5',1,'A5',1,'C6',1,'A5',1,'G5',2,
+    'G5',1,'E5',1,'D5',1,'E5',1,'D5',1,'C5',2)},
+  wedding: { name:'婚礼进行曲', bpm:0.45, notes:m(
+    'C5',1,'C5',1,'C5',1,'C5',2,'F4',1,'F4',.5,'F4',.5,'F4',1,'F4',1,'C5',1,
+    'C5',1,'A4',1,'F4',1,'G4',1,'F4',2)},
+  none: { name:'（无音乐）', bpm:0.5, notes:m() }
+};
+
+var INST = {
+  musicbox: { name:'音乐盒', wave:'triangle', harm:.15, atk:.008, dec:3.2, sus:0 },
+  piano:    { name:'钢琴',   wave:'sine',     harm:.32, atk:.012, dec:1.6, sus:0 },
+  celesta:  { name:'八音盒', wave:'sine',     harm:.05, atk:.004, dec:5.0, sus:0 },
+  strings:  { name:'弦乐',   wave:'sawtooth', harm:0,   atk:.18,  dec:.4,  sus:.55 },
+  synth:    { name:'电子',   wave:'square',   harm:0,   atk:.01,  dec:1.2, sus:.25 }
+};
+/* ==== 曲库结束 ==== */
+
+
 /* ========================================================================== */
 
 (function () {
   'use strict';
   var $ = function (id) { return document.getElementById(id); };
-  var idx = 0, heartsTimer = null, audio = null, muted = !GIFT.music;
+  var idx = 0, heartsTimer = null, audio = null, muted = (GIFT.song === 'none');
 
   function show(id) {
     var all = document.querySelectorAll('.screen');
     for (var i = 0; i < all.length; i++) all[i].classList.remove('on');
     $(id).classList.add('on');
+  }
+
+  function applyTheme() {
+    var b = document.body, i;
+    var themes = ['t-light','t-peach','t-mint','t-sky','t-sunset','t-lav','t-ink'];
+    for (i = 0; i < themes.length; i++) b.classList.remove(themes[i]);
+    if (GIFT.theme && GIFT.theme !== 'dark') b.classList.add('t-' + GIFT.theme);
+    var bgs = ['bg-flow','bg-glow','bg-stars'];
+    for (i = 0; i < bgs.length; i++) b.classList.remove(bgs[i]);
+    if (GIFT.bg && GIFT.bg !== 'still') b.classList.add('bg-' + GIFT.bg);
+    var fonts = ['f-sans','f-serif','f-kai','f-round','f-hand','f-mono'];
+    for (i = 0; i < fonts.length; i++) b.classList.remove(fonts[i]);
+    b.classList.add('f-' + (GIFT.font || 'sans'));
   }
 
   function renderCover() {
@@ -189,9 +406,12 @@ var GIFT = {
     var c = GIFT.cards[idx];
     $('card-title').textContent = c.t;
     $('card-body').textContent = c.d;
+    var ph = $('card-photo');
+    if (c.photo) { ph.innerHTML = '<img alt="" src="' + c.photo + '">'; ph.style.display = 'block'; }
+    else { ph.innerHTML = ''; ph.style.display = 'none'; }
     $('card-count').textContent = (idx + 1) + ' / ' + GIFT.cards.length;
     var next = $('btn-next');
-    next.textContent = idx === GIFT.cards.length - 1 ? '最 后' : '继 续';
+    next.textContent = idx === GIFT.cards.length - 1 ? '接 下 来' : '继 续';
     var card = $('card');
     card.style.animation = 'none';
     void card.offsetWidth;
@@ -222,40 +442,55 @@ var GIFT = {
     }, 520);
   }
 
-  /* ---- 音乐盒：用 Web Audio 现场合成，不需要任何音频文件 ---- */
-  var NOTES = {C4:261.63, D4:293.66, E4:329.63, F4:349.23, G4:392.00,
-               A4:440.00, B4:493.88, C5:523.25, D5:587.33, E5:659.25, F5:698.46, G5:783.99};
-  var MELODY = [['G4',.5],['G4',.5],['A4',1],['G4',1],['C5',1],['B4',2],
-                ['G4',.5],['G4',.5],['A4',1],['G4',1],['D5',1],['C5',2],
-                ['G4',.5],['G4',.5],['G5',1],['E5',1],['C5',1],['B4',1],['A4',2],
-                ['F5',.5],['F5',.5],['E5',1],['C5',1],['D5',1],['C5',2]];
-
+  /* ---- 音乐：用 Web Audio 现场合成，不加载任何音频文件 ---- */
+  var loopTimer = null;
   function playMusic() {
     if (muted) return;
+    var song = SONGS[GIFT.song] || SONGS.birthday;
+    if (!song || !song.notes || !song.notes.length) return;
+    var inst = INST[GIFT.inst] || INST.musicbox;
     try {
       var Ctx = window.AudioContext || window.webkitAudioContext;
       if (!Ctx) return;
       audio = audio || new Ctx();
       if (audio.state === 'suspended') audio.resume();
-      var t = audio.currentTime + 0.15;
-      var beat = 0.46;
-      for (var i = 0; i < MELODY.length; i++) {
-        var freq = NOTES[MELODY[i][0]];
-        var dur = MELODY[i][1] * beat;
-        var osc = audio.createOscillator();
-        var gain = audio.createGain();
-        osc.type = 'triangle';
+      var master = audio.createGain();
+      master.gain.value = (GIFT.volume == null ? 1 : GIFT.volume);
+      master.connect(audio.destination);
+      var beat = song.bpm / (GIFT.tempo || 1);
+      var t = audio.currentTime + 0.12;
+      var n = song.notes, peak = 0.15;
+      for (var i = 0; i + 1 < n.length; i += 2) {
+        var freq = NOTE[n[i]];
+        var dur = n[i + 1] * beat;
+        if (!freq) continue;
+        var osc = audio.createOscillator(), g = audio.createGain();
+        osc.type = inst.wave;
         osc.frequency.value = freq;
-        gain.gain.setValueAtTime(0.0001, t);
-        gain.gain.exponentialRampToValueAtTime(0.16, t + 0.02);
-        gain.gain.exponentialRampToValueAtTime(0.0001, t + dur * 0.92);
-        osc.connect(gain); gain.connect(audio.destination);
-        osc.start(t); osc.stop(t + dur);
+        g.gain.setValueAtTime(0.0001, t);
+        g.gain.exponentialRampToValueAtTime(peak, t + inst.atk);
+        if (inst.sus > 0) {
+          g.gain.exponentialRampToValueAtTime(peak * inst.sus, t + inst.atk + dur * .5);
+          g.gain.exponentialRampToValueAtTime(0.0001, t + dur * 1.15);
+        } else {
+          g.gain.exponentialRampToValueAtTime(0.0001, t + dur * .95);
+        }
+        if (inst.harm > 0) {
+          var o2 = audio.createOscillator(), g2 = audio.createGain();
+          o2.type = 'sine'; o2.frequency.value = freq * 2;
+          g2.gain.setValueAtTime(0.0001, t);
+          g2.gain.exponentialRampToValueAtTime(peak * inst.harm, t + inst.atk);
+          g2.gain.exponentialRampToValueAtTime(0.0001, t + dur * .9);
+          o2.connect(g2); g2.connect(master);
+          o2.start(t); o2.stop(t + dur * 1.2);
+        }
+        osc.connect(g); g.connect(master);
+        osc.start(t); osc.stop(t + dur * 1.25);
         t += dur;
       }
-      // 循环播放
       var total = t - audio.currentTime;
-      setTimeout(function () { if (!muted) playMusic(); }, (total + 2.2) * 1000);
+      clearTimeout(loopTimer);
+      loopTimer = setTimeout(function () { if (!muted) playMusic(); }, (total + 2.0) * 1000);
     } catch (e) { /* 不支持就安静 */ }
   }
 
@@ -276,10 +511,20 @@ var GIFT = {
       idx++;
       renderCard();
     } else {
+      $('claim-sub').textContent = GIFT.date;
+      show('s-claim');
+    }
+  });
+
+  $('giftbox').addEventListener('click', function () {
+    var box = $('giftbox');
+    if (box.classList.contains('open')) return;
+    box.classList.add('open');
+    setTimeout(function () {
       renderWish();
       startHearts();
       show('s-wish');
-    }
+    }, 520);
   });
 
   $('mute').addEventListener('click', function () {
@@ -303,6 +548,7 @@ var GIFT = {
     }
   });
 
+  applyTheme();
   renderCover();
   renderWish();
   updateMute();
