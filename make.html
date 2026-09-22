@@ -249,6 +249,17 @@ textarea{resize:vertical;min-height:74px}
     <div class="hint" id="leninfo"></div>
   </div>
 
+  <div class="card" id="upgradeCard" style="margin-top:16px;border-color:rgba(232,192,125,.35);
+       background:linear-gradient(160deg,rgba(232,192,125,.10),rgba(232,192,125,.03))">
+    <h3 style="margin:0 0 8px;font-size:14.5px;color:var(--gold)">想要更好看的？我帮你做</h3>
+    <div class="hint" style="line-height:1.9;margin:0">
+      自填版你随便用。如果想要<b style="color:var(--ink)">帮你排版、帮你写、做成完全不一样的样子</b>，
+      或者想要<b style="color:var(--ink)">手写笔迹版</b>（用你自己的字），加我：
+    </div>
+    <div id="upContact" style="margin-top:12px;font-size:15px;color:var(--gold);font-weight:600;
+         word-break:break-all">（在下面「内容」里填上你的联系方式，这里就会显示）</div>
+  </div>
+
   <div class="card" style="margin-top:16px">
     <h3 style="margin:0 0 4px;font-size:14px;color:var(--rose)">怎么把它送出去</h3>
     <ol class="steps">
@@ -687,6 +698,16 @@ function collect(){
       toast('生成失败：' + e.message);
     }
   });
+
+  // 把联系方式同步到「升级」卡片
+  function syncUpgrade() {
+    var c = ($('f-contact') && $('f-contact').value.trim()) || '';
+    var box = $('upContact'); if (!box) return;
+    if (c) { box.textContent = c; box.style.color = 'var(--gold)'; }
+    else { box.textContent = '（在「内容」里填上你的微信，这里就会显示）'; box.style.color = 'var(--dim)'; box.style.fontWeight = '400'; }
+  }
+  $('f-contact').addEventListener('input', syncUpgrade);
+  syncUpgrade();
 
   info();
   if (!loadForm()) {
