@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,maximum-scale=1,user-scalable=no">
+<title>M3E Canvas · 手机版</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;overflow:hidden;background:#0E0A12;
+  font-family:-apple-system,BlinkMacSystemFont,'PingFang SC',sans-serif}
+
+#stage{position:absolute;inset:0;overflow:auto;-webkit-overflow-scrolling:touch}
+#inner{transform-origin:0 0;width:1200px;height:1500px}
+iframe{width:1200px;height:1500px;border:0;display:block;background:#fff}
+
+/* 顶部提示（首次显示） */
+#tip{position:fixed;top:0;left:0;right:0;z-index:20;
+  background:rgba(14,10,18,.94);color:#F2ECF5;padding:12px 16px;
+  font-size:13px;line-height:1.7;border-bottom:1px solid rgba(255,255,255,.1);
+  transition:opacity .3s}
+#tip b{color:#E8C07D}
+#tip.gone{opacity:0;pointer-events:none}
+
+/* 底部控制条 */
+#bar{position:fixed;left:0;right:0;bottom:0;z-index:30;
+  display:flex;align-items:center;gap:8px;
+  padding:10px 12px calc(10px + env(safe-area-inset-bottom));
+  background:rgba(14,10,18,.96);border-top:1px solid rgba(255,255,255,.12)}
+#bar button{
+  flex:0 0 auto;min-width:44px;height:42px;padding:0 12px;
+  border-radius:12px;border:1px solid rgba(255,255,255,.14);
+  background:#1E1428;color:#F2ECF5;font-size:15px;font-family:inherit;cursor:pointer}
+#bar button:active{transform:scale(.95)}
+#bar button.pri{border-color:rgba(232,192,125,.4);color:#E8C07D;background:rgba(232,192,125,.1)}
+#z{flex:1;text-align:center;color:#9A8FA8;font-size:13px;font-variant-numeric:tabular-nums}
+</style>
+</head>
+<body>
+
+<div id="tip">
+  <b>手机上用电脑版编辑器</b><br>
+  底部 <b>− ＋</b> 调大小，双指也能缩放。<br>
+  拖组件时先放大到 <b>80% 以上</b>，手指才点得准。
+  <span style="color:#5FD39A" id="closeTip">（点这里关掉）</span>
+</div>
+
+<div id="stage">
+  <div id="inner">
+    <iframe id="fr" src="https://lnkiai.github.io/m3e-canvas/" allow="clipboard-write"></iframe>
+  </div>
+</div>
+
+<div id="bar">
+  <button onclick="step(-0.1)">−</button>
+  <span id="z">—</span>
+  <button onclick="step(0.1)">＋</button>
+  <button onclick="fitW()">适应宽度</button>
+  <button class="pri" onclick="setZ(1)">100%</button>
+</div>
+
+<script>
+var scale = 1, wrap = document.getElementById('inner'),
+    stage = document.getElementById('stage'), bar = document.getElementById('bar');
+
+function apply(keepCenter) {
+  var old = scale;
+  wrap.style.transform = 'scale(' + scale + ')';
+  wrap.style.width  = (1200 * scale) + 'px';
+  wrap.style.height = (1500 * scale) + 'px';
+  document.getElementById('z').textContent = Math.round(scale * 100) + '%';
+  if (keepCenter && old > 0) {
+    var r = stage.getBoundingClientRect();
+    stage.scrollLeft = (stage.scrollLeft + r.width / 2) * (scale / old) - r.width / 2;
+    stage.scrollTop  = (stage.scrollTop  + r.height / 2) * (scale / old) - r.height / 2;
+  }
+}
+function step(d) { scale = Math.min(2, Math.max(0.25, +(scale + d).toFixed(2))); apply(true); }
+function setZ(v) { scale = v; apply(true); }
+function fitW()  { scale = +(window.innerWidth / 1200).toFixed(3); apply(true); }
+
+// 初始：适应宽度
+fitW();
+
+document.getElementById('closeTip').onclick = function () {
+  document.getElementById('tip').classList.add('gone');
+};
+setTimeout(function () { document.getElementById('tip').classList.add('gone'); }, 12000);
+
+// 双指缩放
+var pinch = null;
+stage.addEventListener('touchstart', function (e) {
+  if (e.touches.length === 2) {
+    pinch = Math.hypot(e.touches[0].clientX - e.touches[1].clientX,
+                       e.touches[0].clientY - e.touches[1].clientY);
+  }
+}, {passive:true});
+stage.addEventListener('touchmove', function (e) {
+  if (pinch && e.touches.length === 2) {
+    var d = Math.hypot(e.touches[0].clientX - e.touches[1].clientX,
+                       e.touches[0].clientY - e.touches[1].clientY);
+    scale = Math.min(2, Math.max(0.25, +(scale * (d / pinch)).toFixed(3)));
+    pinch = d; apply(false);
+    e.preventDefault();
+  }
+}, {passive:false});
+stage.addEventListener('touchend', function () { pinch = null; }, {passive:true});
+
+window.addEventListener('resize', fitW);
+</script>
+</body>
+</html>
