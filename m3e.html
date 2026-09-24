@@ -3,109 +3,117 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,maximum-scale=1,user-scalable=no">
+<meta name="theme-color" content="#0E0A12">
 <title>M3E Canvas · 手机版</title>
+<link rel="preconnect" href="https://lnkiai.github.io" crossorigin>
+<link rel="dns-prefetch" href="https://lnkiai.github.io">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html,body{height:100%;overflow:hidden;background:#0E0A12;
-  font-family:-apple-system,BlinkMacSystemFont,'PingFang SC',sans-serif}
-
-#stage{position:absolute;inset:0;overflow:auto;-webkit-overflow-scrolling:touch}
-#inner{transform-origin:0 0;width:1200px;height:1500px}
-iframe{width:1200px;height:1500px;border:0;display:block;background:#fff}
-
-/* 顶部提示（首次显示） */
-#tip{position:fixed;top:0;left:0;right:0;z-index:20;
-  background:rgba(14,10,18,.94);color:#F2ECF5;padding:12px 16px;
-  font-size:13px;line-height:1.7;border-bottom:1px solid rgba(255,255,255,.1);
-  transition:opacity .3s}
+html,body{height:100%;overflow:hidden;background:#0E0A12;font-family:-apple-system,BlinkMacSystemFont,'PingFang SC',sans-serif}
+#load{position:fixed;inset:0;z-index:100;background:#0E0A12;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:17px;transition:opacity .45s}
+#load.gone{opacity:0;pointer-events:none}
+.spin{width:36px;height:36px;border:3px solid rgba(232,192,125,.2);border-top-color:#E8C07D;border-radius:50%;animation:sp .8s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+#load .t1{color:#F2ECF5;font-size:15px}
+#load .t2{color:#9A8FA8;font-size:12.5px;line-height:1.7;text-align:center;padding:0 30px}
+#pbar{width:180px;height:3px;background:rgba(255,255,255,.1);border-radius:3px;overflow:hidden}
+#pfill{height:100%;width:0;background:linear-gradient(90deg,#5FD39A,#E8C07D);transition:width .35s}
+#stage{position:absolute;inset:0;overflow:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
+#inner{transform-origin:0 0;width:1100px;height:1500px;will-change:transform}
+iframe{width:1100px;height:1500px;border:0;display:block;background:#fff}
+#bar{position:fixed;left:0;right:0;bottom:0;z-index:30;display:flex;align-items:center;gap:7px;padding:9px 10px calc(9px + env(safe-area-inset-bottom));background:rgba(14,10,18,.97);border-top:1px solid rgba(255,255,255,.12)}
+#bar button{flex:0 0 auto;min-width:46px;height:46px;padding:0 11px;border-radius:13px;border:1px solid rgba(255,255,255,.14);background:#1E1428;color:#F2ECF5;font-size:16px;font-family:inherit;cursor:pointer;transition:transform .12s,background .2s}
+#bar button:active{transform:scale(.93);background:#2A1E36}
+#bar button.on{border-color:rgba(232,192,125,.5);color:#E8C07D;background:rgba(232,192,125,.14)}
+#z{flex:1;text-align:center;color:#9A8FA8;font-size:13.5px;font-variant-numeric:tabular-nums}
+#tip{position:fixed;left:12px;right:12px;top:12px;z-index:40;background:rgba(30,20,40,.97);border:1px solid rgba(232,192,125,.3);border-radius:14px;padding:14px 16px;color:#F2ECF5;font-size:13px;line-height:1.85;transition:opacity .3s,transform .3s}
+#tip.gone{opacity:0;transform:translateY(-12px);pointer-events:none}
 #tip b{color:#E8C07D}
-#tip.gone{opacity:0;pointer-events:none}
-
-/* 底部控制条 */
-#bar{position:fixed;left:0;right:0;bottom:0;z-index:30;
-  display:flex;align-items:center;gap:8px;
-  padding:10px 12px calc(10px + env(safe-area-inset-bottom));
-  background:rgba(14,10,18,.96);border-top:1px solid rgba(255,255,255,.12)}
-#bar button{
-  flex:0 0 auto;min-width:44px;height:42px;padding:0 12px;
-  border-radius:12px;border:1px solid rgba(255,255,255,.14);
-  background:#1E1428;color:#F2ECF5;font-size:15px;font-family:inherit;cursor:pointer}
-#bar button:active{transform:scale(.95)}
-#bar button.pri{border-color:rgba(232,192,125,.4);color:#E8C07D;background:rgba(232,192,125,.1)}
-#z{flex:1;text-align:center;color:#9A8FA8;font-size:13px;font-variant-numeric:tabular-nums}
+#tip .x{position:absolute;right:12px;top:8px;color:#9A8FA8;font-size:20px;padding:4px 9px;cursor:pointer}
+#tip u{color:#5FD39A;text-decoration:none}
 </style>
 </head>
 <body>
+<div id="load">
+  <div class="spin"></div>
+  <div class="t1">正在打开编辑器</div>
+  <div id="pbar"><div id="pfill"></div></div>
+  <div class="t2">第一次要等 5–8 秒<br>之后就快了（浏览器会缓存）</div>
+</div>
 
-<div id="tip">
+<div id="tip" class="gone">
+  <span class="x" onclick="document.getElementById('tip').classList.add('gone')">×</span>
   <b>手机上用电脑版编辑器</b><br>
-  底部 <b>− ＋</b> 调大小，双指也能缩放。<br>
-  拖组件时先放大到 <b>80% 以上</b>，手指才点得准。
-  <span style="color:#5FD39A" id="closeTip">（点这里关掉）</span>
+  ① 底部 <b>− ＋</b> 调大小，双指也能缩放<br>
+  ② <u>拖组件前先放大到 60% 以上</u>，手指才点得准<br>
+  ③ 底部 <b>✥</b> 是拖动模式（画面拖不动时点它）
 </div>
 
-<div id="stage">
-  <div id="inner">
-    <iframe id="fr" src="https://lnkiai.github.io/m3e-canvas/" allow="clipboard-write"></iframe>
-  </div>
-</div>
+<div id="stage"><div id="inner">
+  <iframe id="fr" src="https://lnkiai.github.io/m3e-canvas/" allow="clipboard-write"></iframe>
+</div></div>
 
 <div id="bar">
   <button onclick="step(-0.1)">−</button>
   <span id="z">—</span>
   <button onclick="step(0.1)">＋</button>
-  <button onclick="fitW()">适应宽度</button>
-  <button class="pri" onclick="setZ(1)">100%</button>
+  <button id="btnPan" onclick="togglePan()">✥</button>
+  <button onclick="fitW()">宽</button>
+  <button onclick="fitH()">高</button>
 </div>
 
 <script>
-var scale = 1, wrap = document.getElementById('inner'),
-    stage = document.getElementById('stage'), bar = document.getElementById('bar');
-
-function apply(keepCenter) {
-  var old = scale;
-  wrap.style.transform = 'scale(' + scale + ')';
-  wrap.style.width  = (1200 * scale) + 'px';
-  wrap.style.height = (1500 * scale) + 'px';
-  document.getElementById('z').textContent = Math.round(scale * 100) + '%';
-  if (keepCenter && old > 0) {
-    var r = stage.getBoundingClientRect();
-    stage.scrollLeft = (stage.scrollLeft + r.width / 2) * (scale / old) - r.width / 2;
-    stage.scrollTop  = (stage.scrollTop  + r.height / 2) * (scale / old) - r.height / 2;
-  }
+var W=1100,H=1500;
+var stage=document.getElementById('stage'),inner=document.getElementById('inner');
+var LS='m3e_zoom_v2';
+var scale=parseFloat(localStorage.getItem(LS))||0.45;
+var panMode=false;
+function apply(keep){
+  var old=scale;
+  inner.style.transform='translate3d(0,0,0) scale('+scale+')';
+  inner.style.width=(W*scale)+'px'; inner.style.height=(H*scale)+'px';
+  document.getElementById('z').textContent=Math.round(scale*100)+'%';
+  if(keep&&old>0){var r=stage.getBoundingClientRect();
+    stage.scrollLeft=(stage.scrollLeft+r.width/2)*(scale/old)-r.width/2;
+    stage.scrollTop=(stage.scrollTop+r.height/2)*(scale/old)-r.height/2;}
+  try{localStorage.setItem(LS,scale);}catch(e){}
 }
-function step(d) { scale = Math.min(2, Math.max(0.25, +(scale + d).toFixed(2))); apply(true); }
-function setZ(v) { scale = v; apply(true); }
-function fitW()  { scale = +(window.innerWidth / 1200).toFixed(3); apply(true); }
-
-// 初始：适应宽度
-fitW();
-
-document.getElementById('closeTip').onclick = function () {
-  document.getElementById('tip').classList.add('gone');
-};
-setTimeout(function () { document.getElementById('tip').classList.add('gone'); }, 12000);
-
-// 双指缩放
-var pinch = null;
-stage.addEventListener('touchstart', function (e) {
-  if (e.touches.length === 2) {
-    pinch = Math.hypot(e.touches[0].clientX - e.touches[1].clientX,
-                       e.touches[0].clientY - e.touches[1].clientY);
+function step(d){scale=Math.min(2.5,Math.max(0.2,+(scale+d).toFixed(2)));apply(true);}
+function fitW(){scale=+(window.innerWidth/W).toFixed(3);apply(true);}
+function fitH(){scale=+((window.innerHeight-110)/H).toFixed(3);apply(true);}
+function togglePan(){
+  panMode=!panMode;
+  document.getElementById('btnPan').classList.toggle('on',panMode);
+  document.getElementById('fr').style.pointerEvents=panMode?'none':'auto';
+}
+var p=0,pt=setInterval(function(){p=Math.min(88,p+(p<50?7:2.5));document.getElementById('pfill').style.width=p+'%';},160);
+document.getElementById('fr').addEventListener('load',function(){
+  clearInterval(pt);
+  document.getElementById('pfill').style.width='100%';
+  setTimeout(function(){
+    document.getElementById('load').classList.add('gone');
+    var t=document.getElementById('tip');
+    if(!localStorage.getItem('m3e_tip_seen')){
+      t.classList.remove('gone');
+      localStorage.setItem('m3e_tip_seen','1');
+      setTimeout(function(){t.classList.add('gone');},13000);
+    }
+  },450);
+});
+var pinch=null;
+stage.addEventListener('touchstart',function(e){
+  if(e.touches.length===2){pinch=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY);}
+},{passive:true});
+stage.addEventListener('touchmove',function(e){
+  if(pinch&&e.touches.length===2){
+    var d=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY);
+    scale=Math.min(2.5,Math.max(0.2,+(scale*(d/pinch)).toFixed(3)));
+    pinch=d;apply(false);e.preventDefault();
   }
-}, {passive:true});
-stage.addEventListener('touchmove', function (e) {
-  if (pinch && e.touches.length === 2) {
-    var d = Math.hypot(e.touches[0].clientX - e.touches[1].clientX,
-                       e.touches[0].clientY - e.touches[1].clientY);
-    scale = Math.min(2, Math.max(0.25, +(scale * (d / pinch)).toFixed(3)));
-    pinch = d; apply(false);
-    e.preventDefault();
-  }
-}, {passive:false});
-stage.addEventListener('touchend', function () { pinch = null; }, {passive:true});
-
-window.addEventListener('resize', fitW);
+},{passive:false});
+stage.addEventListener('touchend',function(){pinch=null;},{passive:true});
+window.addEventListener('resize',function(){apply(false);});
+apply(false);
 </script>
 </body>
 </html>
